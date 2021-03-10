@@ -1,0 +1,93 @@
+
+export default class FormTest extends ValidationComponent {
+
+  constructor(props) {
+    super(props);
+    this.state = {store_name : "", business_type: "", store_open:"07:00", store_close: "17:00", onoff : false, filez : ""
+    ,selectedValue: ''};
+this._onPressButton = this._onPressButton.bind(this);
+  }
+
+componentDidMount() {
+submit();
+  }
+  _onPressButton() {
+    // Call ValidationComponent validate method
+    if(this.validate({
+	  }))
+	  {
+	  submitform();
+	  this.props.navigation.navigate('Register2');
+	  }
+  }
+
+  render() {
+      return (
+    <Form
+      onSubmit={onSubmit}
+      render={({ handleSubmit, reset, submitting, pristine, values }) => (
+        <form onSubmit={handleSubmit}>
+    <ImageBackground
+      style={styles.background}
+      source={require("../assets/register_1_bg.png")}
+    >
+			<WebView ref={'webview'} source={ require("./css-register-1.html") } />
+      <View style={styles.toptitle}>
+        <Text style={styles.h1}>Daftar Paykitaz Merchant</Text>
+      </View>
+        <View style={styles.formreg1}>
+	  <View style={{flexDirection:'row', justifyContent:'flex-end'}}>
+		<img
+      src={require('../assets/toko_logo.png')} width={"80"} height={"60"}
+		/>
+		<Text style={styles.h1_black}>Profil Merchant</Text>
+	  </View>
+		<Text style={styles.small}>Beritahu Kami tentang Merchant mu.</Text>
+			<Text>
+            Nama Merchant
+          </Text>
+  <input type="text" name="store_name" ref="store_name" required/>
+			<Text>
+            Bidang Bisnis
+          </Text>
+<View style={styles.container}>
+<select name="business_type" id="business_type">
+<option value="0">Select</option>
+</select>
+      </View>
+	  <View style={{flexDirection:'row', justifyContent:'flex-end'}}>
+	  Waktu Buka<input type="hour" name="store_open"  />Waktu Tutup<input type="hour" name="store_close"/>
+	  </View>
+
+	  <View style={{flexDirection:'row', justifyContent:'flex-end'}}>
+		<img
+      src={require('../assets/toko_logo.png')} width={"80"} height={"60"}
+		/>
+		<Text style={styles.h1_black}>Foto Merchant</Text>
+	  </View>
+		<Text style={styles.small}>Khusus Merchant Online, Anda dapat mengupload screenshot profil sosial media atau lapak online anda.</Text>
+		<Text style={styles.small}>Tipe Merchant.</Text>
+			
+	  <View style={{flexDirection:'row', justifyContent:'flex-end'}}>
+	  <input type="radio" name="onoff" value="online"/>Online <input type="radio" name="onoff" value="offline"/>Offline 
+	  </View>
+
+		<View style={styles.formfile}>
+		<input type="file" name="filez"/>
+		<Text style={styles.h3_black}>Upload Foto</Text><br/>
+		<Text style={styles.small}>Upload Foto Stok Barang, Toko atau Kegiatan Usaha Anda. Pastikan Foto Terlihat jelas dengan pencahayaan yang baik</Text>
+		</View>
+          <TouchableHighlight onPress={this._onPressButton}>
+            <Text>Submit</Text>
+          </TouchableHighlight>
+
+          <Text>
+            {this.getErrorMessages()}
+          </Text>
+        </View>
+	</form>
+	</ImageBackground>
+      );
+  }
+
+}

@@ -1,0 +1,165 @@
+'use strict';
+
+import React, {Component}  from 'react';
+import {Dimensions} from 'react-native';
+import $ from 'jquery';
+import { render } from 'react-dom'
+
+import { Form } from 'react-final-form'
+import { Field } from 'react-final-form-html5-validation'
+
+
+
+const dimensions = Dimensions.get('window');
+const imageHeight = dimensions.height ;
+const imageWidth = dimensions.width;
+
+	function submit()
+	{
+	$.ajax({
+		url: 'http://localhost/paykitaz-merchant-api/api/paket/businesstype',
+		data: "test=test",
+		cache: false,
+		contentType: false,
+		processData: false,
+		method: 'POST',
+		type: 'POST', // For jQuery < 1.9
+		success: function(data){
+			//alert(data.datax[0].bt_name);
+			var i;
+			for(i=0;i<data.datax.length;i++)
+			{
+				//alert(data.datax[i].bt_name);
+						$("#business_type").append(new Option(data.datax[i].bt_name, data.datax[i].bt_id));
+
+			}
+		}
+	});
+	return false;
+	}
+	function submitform()
+	{
+		var data = new FormData();
+		var data = new FormData($("#nameform")[0]);
+		data.append('store_name', $("input[name='store_name']").val());
+		//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
+		//    data.append('file-'+i, file);
+		//});
+		$.ajax({
+			url: 'http://localhost/paykitaz-merchant-api/api/daftar',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			method: 'POST',
+			type: 'POST', // For jQuery < 1.9
+			success: function(data){
+				alert(data);
+			}
+		});
+		return false;
+	}
+	function insertSelect(item)
+	{
+		$("#business_type").append(new Option(item.bt_name, item.bt_id));
+	}
+
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+const onSubmit = async values => {
+  await sleep(300)
+  window.alert(JSON.stringify(values, 0, 2))
+}
+
+const App = () => (
+    <Form
+      onSubmit={onSubmit}
+      render={({ handleSubmit, reset, submitting, pristine, values }) => (
+        <form onSubmit={handleSubmit} name="nameform">
+          <div>
+            <label>Store Name</label>
+            <Field
+              name="store_name"
+              component="input"
+              type="text"
+              placeholder="Store Name"
+              pattern="[A-Z].+"
+              patternMismatch="Capitalize your name!"
+              required
+              minLength={4}
+              tooShort="You need a longer name"
+            />
+          </div>
+          <div>
+            <label>Favorite Color</label>
+            <Field
+              name="business_type"
+              component="select"
+              required
+              >
+              <option />
+            </Field>
+          </div>
+          <div>
+            <label>Waktu Buka</label>
+            <Field
+              name="store_open"
+              type="time"
+              typeMismatch="That's not a time"
+              component="input"
+              placeholder="Waktu Buka"
+              required
+            />
+          </div>
+          <div>
+            <label>Waktu Tutup</label>
+            <Field
+              name="store_close"
+              type="time"
+              typeMismatch="That's not a time"
+              component="input"
+              placeholder="Waktu Tutup"
+              required
+            />
+          </div>
+          <div>
+            <Field
+              name="merchant_type"
+              type="radio"
+			  value="0"
+              component="input"
+            />
+            <label>Online</label>
+            <Field
+              name="merchant_type"
+              type="radio"
+			  value="1"
+              component="input"
+            />
+            <label>Offline</label>
+          </div>
+          <div>
+            <label>File</label>
+            <Field
+              name="filez"
+              component="input"
+              type="file"
+              required
+            />
+          </div>
+          <div className="buttons">
+            <button type="submit" disabled={submitting}>
+              Submit
+            </button>
+            <button type="button" onClick={reset} disabled={submitting}>
+              Reset
+            </button>
+          </div>
+          <pre>{JSON.stringify(values, 0, 2)}</pre>
+        </form>
+      )}
+    />
+)
+
+render(<App />, document.getElementById('root'))

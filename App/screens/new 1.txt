@@ -1,0 +1,71 @@
+'use strict';
+
+import React, {Component}  from 'react';
+import {  ImageBackground,
+View, Text, TextInput, TouchableHighlight, Picker} from 'react-native';
+import ValidationComponent from 'react-native-form-validator';
+import {Dimensions} from 'react-native';
+import {Image, StyleSheet} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import $ from 'jquery';
+import { WebView } from 'react-native-webview';
+import { render } from 'react-dom'
+
+import { Form } from 'react-final-form'
+import { Field } from 'react-final-form-html5-validation'
+
+
+
+const dimensions = Dimensions.get('window');
+const imageHeight = dimensions.height ;
+const imageWidth = dimensions.width;
+
+	function submit()
+	{
+	$.ajax({
+		url: 'http://localhost/paykitaz-merchant-api/api/paket/businesstype',
+		data: "test=test",
+		cache: false,
+		contentType: false,
+		processData: false,
+		method: 'POST',
+		type: 'POST', // For jQuery < 1.9
+		success: function(data){
+			//alert(data.datax[0].bt_name);
+			var i;
+			for(i=0;i<data.datax.length;i++)
+			{
+				//alert(data.datax[i].bt_name);
+						$("#business_type").append(new Option(data.datax[i].bt_name, data.datax[i].bt_id));
+
+			}
+		}
+	});
+	return false;
+	}
+	function submitform()
+	{
+		var data = new FormData();
+		var data = new FormData($("#nameform")[0]);
+		data.append('store_name', $("input[name='store_name']").val());
+		//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
+		//    data.append('file-'+i, file);
+		//});
+		$.ajax({
+			url: 'http://localhost/paykitaz-merchant-api/api/daftar',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			method: 'POST',
+			type: 'POST', // For jQuery < 1.9
+			success: function(data){
+				alert(data);
+			}
+		});
+		return false;
+	}
+	function insertSelect(item)
+	{
+		$("#business_type").append(new Option(item.bt_name, item.bt_id));
+	}

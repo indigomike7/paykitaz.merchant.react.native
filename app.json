@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "paykitazmerchant",
+    "slug": "paykitazmerchant",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./App/assets/icon.png",
+    "splash": {
+      "image": "./App/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "web": {
+      "favicon": "./App/assets/favicon.png"
+    },
+    "description": "Testing ",
+    "githubUrl": "https://github.com/Imstupidpleasehelp/Reactnative-marketplace-app",
+    "android": {
+      "package": "com.paykitaz.merchant"
+    }
+  }
+}

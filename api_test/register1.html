@@ -1,0 +1,40 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$(function () {
+$("#btn1").on('click', function () {
+		alert('123');
+		submit();
+	}
+);
+});
+function submit()
+{
+var data = new FormData();
+var data = new FormData($("#nameform")[0]);
+//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
+//    data.append('file-'+i, file);
+//});
+jQuery.ajax({
+    url: 'http://localhost/paykitaz-merchant-api/api/daftar',
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: 'POST',
+    type: 'POST', // For jQuery < 1.9
+    success: function(data){
+        alert(data);
+    }
+});
+return false;
+}
+</script>
+<form onsubmit="return false;" id="nameform"  method="post" enctype="multipart/form-data">
+Storename<input type="text" name="store_name"><br>
+Businesstype<input type="text" name="business_type"><br>
+Open<input type="text" name="store_open"><br>
+Close<input type="text" name="store_close"><br>
+Online/Offline<input type="text" name="merchant_type"><br>
+<input type="file" name="filez" id="filez">
+<button id="btn1" name="btn1" type="button">Submit</button>
+</form>

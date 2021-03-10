@@ -1,1 +1,1 @@
-Lesson app 
+Paykitaz React Native

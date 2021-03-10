@@ -1,0 +1,37 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$(function () {
+$("#btn1").on('click', function () {
+		//alert('123');
+		submit();
+	}
+);
+});
+function submit()
+{
+var data = new FormData();
+var data = new FormData($("#nameform")[0]);
+//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
+//    data.append('file-'+i, file);
+//});
+jQuery.ajax({
+    url: 'http://localhost/paykitaz-merchant-api/api/daftar2',
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    method: 'POST',
+    type: 'POST', // For jQuery < 1.9
+    success: function(data){
+        alert(data);
+    }
+});
+return false;
+}
+</script>
+<form onsubmit="return false;" id="nameform"  method="post" enctype="multipart/form-data">
+MerchantAddress<input type="text" name="merchant_address"><br>
+Kelurahan<input type="text" name="merchant_kelurahan"><br>
+ZIP Code<input type="text" name="zip_code"><br>
+<button id="btn1" name="btn1" type="button">Submit</button>
+</form>
