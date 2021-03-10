@@ -3,47 +3,93 @@ import { render } from 'react-dom'
 import Styles from './Styles'
 import { Form } from 'react-final-form'
 import { Field } from 'react-final-form-html5-validation'
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  Image,
+} from "react-native";
+
+import $ from 'jquery';
+
+	function submit()
+	{
+	$.ajax({
+		url: 'http://localhost/paykitaz-merchant-api/api/paket/businesstype',
+		data: "test=test",
+		cache: false,
+		contentType: false,
+		processData: false,
+		method: 'POST',
+		type: 'POST', // For jQuery < 1.9
+		success: function(data){
+			//alert(data.datax[0].bt_name);
+			var i;
+			for(i=0;i<data.datax.length;i++)
+			{
+				//alert(data.datax[i].bt_name);
+						$("#business_type").append(new Option(data.datax[i].bt_name, data.datax[i].bt_id));
+
+			}
+		}
+	});
+	return false;
+	}
+	function submitform()
+	{
+		var data = new FormData();
+		var data = new FormData($("#nameform")[0]);
+		//data.append('store_name', $("input[name='store_name']").val());
+		//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
+		//    data.append('file-'+i, file);
+		//});
+		$.ajax({
+			url: 'http://localhost/paykitaz-merchant-api/api/daftar',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			method: 'POST',
+			type: 'POST', // For jQuery < 1.9
+			success: function(data){
+				session_id_reg = data.session_id_reg;
+				alert(session_id_reg);
+				navigation.navigate('Register2');
+			}
+		});
+		return false;
+	}
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
+  await sleep(300);
+  submitform();
 }
 export default class App extends React.Component {
+
+componentDidMount() {
+submit();
+  }
 render(){
 return (
   <Styles>
-    <h1>🏁 React Final Form</h1>
-    <h2>HTML5 Validation Example</h2>
-    <a href="https://github.com/erikras/react-final-form#-react-final-form">
-      Read Docs
-    </a>
-    <p>
-      In this example, we replace our <code>Field</code> component from{' '}
-      <code>react-final-form</code> with the one from{' '}
-      <a
-        href="https://github.com/final-form/react-final-form-html5-validation"
-        target="_blank">
-        <code>react-final-form-html5-validation</code>
-      </a>{' '}
-      and immediately get HTML5 validation functionality.
-    </p>
-    <p>
-      The "Last Name" field will also display its errors the standard 🏁 React
-      Final Form way.
-    </p>
+    <ImageBackground
+      source={require("../assets/register_1_bg.png")}
+    >
+    <h1>Daftar Paykitaz Merchant</h1>
     <Form
       onSubmit={onSubmit}
       render={({ handleSubmit, reset, submitting, pristine, values }) => (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} name="nameform" id="nameform">
           <div>
-            <label>First Name</label>
+            <label>Nama Merchant</label><br/>
             <Field
-              name="firstName"
+              name="store_name"
               component="input"
               type="text"
-              placeholder="First Name"
+              placeholder="Business Name"
               pattern="[A-Z].+"
               patternMismatch="Capitalize your name!"
               required
@@ -51,51 +97,59 @@ return (
               tooShort="You need a longer name"
             />
           </div>
-          <Field
-            name="lastName"
-            type="text"
-            placeholder="Last Name"
-            required
-            valueMissing="Who are you??">
-            {({ input, meta: { error, touched }, ...rest }) => (
-              <div>
-                <label>Last Name</label>
-                <input {...input} {...rest} />
-                {error && touched && <span>{error}</span>}
-              </div>
-            )}
-          </Field>
           <div>
-            <label>Email</label>
+            <label>Bidang Bisnis</label><br/>
             <Field
-              name="email"
-              type="email"
-              typeMismatch="That's not an email address"
-              component="input"
-              placeholder="Email"
-              required
-            />
-          </div>
-          <div>
-            <label>Favorite Color</label>
-            <Field
-              name="favoriteColor"
+              name="business_type" id="business_type"
               component="select"
               required
-              validate={value =>
-                value === '#00ff00'
-                  ? 'You like Green? 🤢 Pick again!'
-                  : undefined
-              }>
-              <option />
-              <option value="#ff0000">❤️ Red</option>
-              <option value="#00ff00">💚 Green</option>
-              <option value="#0000ff">💙 Blue</option>
+              >
+              <option value="0">Select</option>
             </Field>
           </div>
           <div>
-            <label>Notes</label>
-            <Field name="notes" component="textarea" placeholder="Notes" />
+            <label>Jam Buka</label><br/>
+            <Field
+              name="store_open"
+              component="input"
+              type="text"
+              required
+              minLength={4}
+              tooShort="You need a time"
+            />
+          </div>
+          <div>
+            <label>Jam Tutup</label><br/>
+            <Field
+              name="store_close"
+              component="input"
+              type="text"
+              required
+              minLength={4}
+              tooShort="You need a time"
+            />
+          </div>
+          <div>
+            <label>Tipe Merchant</label><br/>
+            <Field
+              name="merchant_type"
+              component="input"
+              type="radio" value="1"
+            /> Online
+            <Field
+              name="merchant_type"
+              component="input"
+              type="radio" value="2"
+            /> Offline
+          </div>
+          <div>
+            <label>Upload Gambar</label><br/>
+            <Field
+              name="filez"
+              component="input"
+              type="file"
+              required
+            />
           </div>
           <div className="buttons">
             <button type="submit" disabled={submitting}>
@@ -105,10 +159,10 @@ return (
               Reset
             </button>
           </div>
-          <pre>{JSON.stringify(values, 0, 2)}</pre>
         </form>
       )}
     />
+    </ImageBackground>
   </Styles>
 )
 
