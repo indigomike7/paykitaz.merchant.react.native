@@ -1,4 +1,8 @@
-import React from "react";
+import React from 'react'
+import { render } from 'react-dom'
+import Styles from './Styles'
+import { Form } from 'react-final-form'
+import { Field } from 'react-final-form-html5-validation'
 import {
   StyleSheet,
   Text,
@@ -6,94 +10,308 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
-import AppButton from "../components/appbutton";
- 
-const LoginRegisterScreen = ({navigation}) => {
-  return (
+
+import * as Keychain from 'react-native-keychain';
+
+import $ from 'jquery';
+
+$(document).ready(
+	function()
+	{
+		$('#province').on('change', function() {
+			submit2(this.value);
+		});
+		$('#kabupaten').on('change', function() {
+			submit3(this.value);
+		});
+		$('#kecamatan').on('change', function() {
+			submit4(this.value);
+		});
+
+	}
+
+);
+
+	function submit()
+	{
+	$.ajax({
+		url: 'http://localhost/paykitaz-merchant-api/api/paket/province',
+		data: "test=test",
+		cache: false,
+		contentType: false,
+		processData: false,
+		method: 'POST',
+		type: 'POST', // For jQuery < 1.9
+		success: function(data){
+			//alert(data.datax[0].bt_name);
+			var i;
+			for(i=0;i<data.datax.length;i++)
+			{
+				//alert(data.datax[i].bt_name);
+						$("#province").append(new Option(data.datax[i].name, data.datax[i].id));
+
+			}
+		}
+	});
+	return false;
+	}
+	function submit2(id)
+	{
+		var fd = new FormData();
+		fd.append("province_id",id);
+	$.ajax({
+		url: 'http://localhost/paykitaz-merchant-api/api/paket/kabupaten',
+		data: fd,
+		cache: false,
+		contentType: false,
+		processData: false,
+		method: 'POST',
+		type: 'POST', // For jQuery < 1.9
+		success: function(data){
+			//alert(data.datax[0].bt_name);
+			var i;
+			$("#kabupaten").empty();
+			for(i=0;i<data.datax.length;i++)
+			{
+				//alert(data.datax[i].bt_name);
+				$("#kabupaten").append(new Option(data.datax[i].name, data.datax[i].id));
+
+			}
+			$("#div_isi").html("$('#province').on('change', function() { submit2(this.value); }); 	$('#kabupaten').on('change', function() { submit3(this.value); 	}); $('#kecamatan').on('change', function() { submit4(this.value); });");
+			
+
+		}
+	});
+	return false;
+	}
+	function submit3(id)
+	{
+		var fd = new FormData();
+		fd.append("regency_id",id);
+	$.ajax({
+		url: 'http://localhost/paykitaz-merchant-api/api/paket/kecamatan',
+		data: fd,
+		cache: false,
+		contentType: false,
+		processData: false,
+		method: 'POST',
+		type: 'POST', // For jQuery < 1.9
+		success: function(data){
+			//alert(data.datax[0].bt_name);
+			var i;
+			$("#kecamatan").empty();
+			for(i=0;i<data.datax.length;i++)
+			{
+				//alert(data.datax[i].bt_name);
+						$("#kecamatan").append(new Option(data.datax[i].name, data.datax[i].id));
+
+			}
+			$("#div_isi").html("$('#province').on('change', function() { submit2(this.value); }); 	$('#kabupaten').on('change', function() { submit3(this.value); 	}); $('#kecamatan').on('change', function() { submit4(this.value); });");
+			
+					
+		}
+	});
+	return false;
+	}
+	function submit4(id)
+	{
+		var fd = new FormData();
+		fd.append("district_id",id);
+	$.ajax({
+		url: 'http://localhost/paykitaz-merchant-api/api/paket/kelurahan',
+		data: fd,
+		cache: false,
+		contentType: false,
+		processData: false,
+		method: 'POST',
+		type: 'POST', // For jQuery < 1.9
+		success: function(data){
+			//alert(data.datax[0].bt_name);
+			var i;
+			$("#kelurahan").empty();
+			for(i=0;i<data.datax.length;i++)
+			{
+				//alert(data.datax[i].bt_name);
+						$("#kelurahan").append(new Option(data.datax[i].name, data.datax[i].id));
+
+			}
+			$("#div_isi").html("$('#province').on('change', function() { submit2(this.value); }); 	$('#kabupaten').on('change', function() { submit3(this.value); 	}); $('#kecamatan').on('change', function() { submit4(this.value); });");
+		}
+	});
+	return false;
+	}
+	function submitform()
+	{
+		var data = new FormData();
+		var data = new FormData($("#nameform")[0]);
+		//data.append('store_name', $("input[name='store_name']").val());
+		//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
+		//    data.append('file-'+i, file);
+		//});
+		$.ajax({
+			url: 'http://localhost/paykitaz-merchant-api/api/daftar2',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			method: 'POST',
+			type: 'POST', // For jQuery < 1.9
+			success: function(data){
+				//session_id_reg = data.session_id_reg;
+				//alert(session_id_reg);
+				Keychain.setGenericPassword('session', data.session_id_reg);
+				navigation.navigate('Register2');
+				
+			}
+		});
+		return false;
+	}
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+const onSubmit = async values => {
+  await sleep(300);
+  submitform();
+}
+export default class Register2Screen extends React.Component {
+constructor(props){
+ super(props);
+ this. _submitform = this. _submitform.bind(this);
+	console.log(this.props);
+ console.log(props);
+}
+	_submitform(props)
+	{
+		var data = new FormData();
+		var data = new FormData($("#nameform")[0]);
+		const credentials = Keychain.getGenericPassword();
+		data.append('session_id',credentials.session);
+		//data.append('store_name', $("input[name='store_name']").val());
+		//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
+		//    data.append('file-'+i, file);
+		//});
+		$.ajax({
+			url: 'http://localhost/paykitaz-merchant-api/api/daftar2',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			method: 'POST',
+			type: 'POST', // For jQuery < 1.9
+			success: function(data){
+				//session_id_reg = data.session_id_reg;
+				//alert(session_id_reg);
+				//Keychain.setGenericPassword('session', data.session_id_reg);
+				navigation.navigate('Register2');
+				
+			}
+		});
+		return false;
+	}
+
+componentDidMount() {
+submit();
+$(document).ready(
+	function()
+	{
+		$('#province').on('change', function() {
+			submit2(this.value);
+		});
+		$('#kabupaten').on('change', function() {
+			submit3(this.value);
+		});
+		$('#kecamatan').on('change', function() {
+			submit4(this.value);
+		});
+
+	}
+
+);  }
+render(){
+return (
+  <Styles>
     <ImageBackground
-      style={styles.background}
       source={require("../assets/register_2_bg.png")}
     >
-      <View style={styles.logoContainer}>
-        <Text style={styles.big}>Selamat Datang di Paykitaz Merchant</Text>
-        <Text style={styles.small}>Semua alat untuk mengelola dan mengembangkan bisnis anda</Text>
-      </View>
-      <View style={styles.buttonbox}>
-        <AppButton  title={"Daftar"} size="sm" color="#64c098"  onPress={() => navigation.navigate('Register')} />
-        
-      </View>
-      <View style={styles.buttonbox2}>
-        <AppButton  title={"Masuk"} size="sm"  color="blue" onPress={() => navigation.navigate('Login')}/>
-        
-      </View>
+    <h1>Daftar Paykitaz Merchant</h1>
+    <Form
+      onSubmit={this._submitform}
+      render={({ handleSubmit, reset, submitting, pristine, values }) => (
+        <form onSubmit={handleSubmit} name="nameform" id="nameform">
+          <div>
+            <label>Alamat</label><br/>
+			<Field name="merchant_address" component="textarea" placeholder="Alamat" required/>
+          </div>
+          <div>
+            <label>Provinsi</label><br/>
+            <Field
+              name="province" id="province"
+              component="select"
+	  onchange="{submit2(this.value)}"
+              required
+              >
+              <option value="0">Select</option>
+            </Field>
+          </div>
+          <div>
+            <label>Kabupaten</label><br/>
+            <Field
+              name="kabupaten" id="kabupaten"
+              component="select"
+	  onchange="{submit3(this.value)}"
+              required
+              >
+              <option value="0">Select</option>
+            </Field>
+          </div>
+          <div>
+            <label>Kota/Kecamatan</label><br/>
+            <Field
+              name="kecamatan" id="kecamatan"
+              component="select"
+			  onchange="{submit4(this.value)}"
+              required
+              >
+              <option value="0">Select</option>
+            </Field>
+          </div>
+          <div>
+            <label>Kelurahan</label><br/>
+            <Field
+              name="kelurahan" id="kelurahan"
+              component="select"
+              required
+              >
+              <option value="0">Select</option>
+            </Field>
+          </div>
+          <div>
+            <label>Kode Pos</label><br/>
+            <Field
+              name="zip_code"
+              component="input"
+              type="text"
+              placeholder="Kode Pos"
+              required
+              minLength={4}
+              tooShort="Mohon Masukkan Kode Pos"
+            />
+          </div>
+           <div className="buttons">
+            <button type="submit" disabled={submitting}>
+              Submit
+            </button>
+            <button type="button" onClick={reset} disabled={submitting}>
+              Reset
+            </button>
+          </div>
+		  <div id="div_isi"></div>
+        </form>
+      )}
+    />
     </ImageBackground>
-  );
-};
+  </Styles>
+)
 
-export default LoginRegisterScreen;
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    width: "100%",
-  },
-buttonbox: {
-	marginRight:40,
-    marginLeft:40,
-	marginTop:10,
-    paddingLeft:10,
-    paddingRight:10,
-    paddingTop:10,
-	width:240,
-    paddingBottom:10,
-    backgroundColor:'#64c098',
-    borderRadius:22,
-    borderWidth: 1,
-    borderColor: '#fff'
-},
-buttonbox2: {
-	marginRight:40,
-    marginLeft:40,
-	marginTop:10,
-    paddingLeft:10,
-    paddingRight:10,
-    paddingTop:10,
-	width:240,
-    paddingBottom:10,
-    backgroundColor:'blue',
-    borderRadius:22,
-    borderWidth: 1,
-    borderColor: '#fff'
-},
-  logo: {
-    width: 100,
-    height: 100,
-    backgroundColor: "white",
-    borderRadius: 250,
-  },
-  big: {
-    fontSize: 36,
-    justifyContent: "center",
-    color: "black",
-    alignItems: "center",
-	marginTop:210,
-	padding:20,
-  },
-  small: {
-    fontSize: 20,
-    justifyContent: "center",
-    color: "black",
-    alignItems: "center",
-	padding:20,
-  }
-  ,  logoContainer: {
-    top: 70,
-    position: "absolute",
-    alignItems: "center",
-  },
-  masuk:
-  {
-  }
-  ,
-});
+}
+}

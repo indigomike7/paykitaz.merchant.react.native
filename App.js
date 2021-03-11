@@ -26,6 +26,7 @@ import LoginRegisterScreen from "./App/screens/LoginRegisterScreen";
 import LoginScreen from "./App/screens/LoginScreen";
 import Register1Screen from "./App/screens/Register1Screen";
 import Register2Screen from "./App/screens/Register2Screen";
+import RegisterVerifikasiScreen from "./App/screens/RegisterVerifikasiScreen";
 import ViewImageScreen from "./App/screens/viewimage";
 import CardCom from "./App/components/card";
 import ListingScreen from "./App/screens/listingScreen";
@@ -33,6 +34,8 @@ import ListingScreen from "./App/screens/listingScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Cartbar from "./App/components/cartbar";
+import { navigationRef } from './RootNavigation';
+
 
 const App = () => {
   const Stack = createStackNavigator();
@@ -41,13 +44,14 @@ const App = () => {
     landscape,
   } = useDeviceOrientation(); /* change with orientation  <Text style={{color: landscape ? 'green' : 'black',}}>Meme dictionary</Text> */
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
         <Stack.Screen name="Slider" component={SliderScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="LoginRegister" component={LoginRegisterScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={LoginScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Register1" component={Register1Screen}  options={{ headerShown: false }} />
         <Stack.Screen name="Register2" component={Register2Screen}  options={{ headerShown: false }} />
+        <Stack.Screen name="RegisterVerifikasi" component={RegisterVerifikasiScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="listings" component={ListingScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Viewimage" component={ViewImageScreen}  options={{ headerShown: false }} />
       </Stack.Navigator>
@@ -61,12 +65,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
     justifyContent: "center",
-    alignItems: "center",
+	alignItems:"center",
   },
   big: {
     fontSize: 48,
   },
 });
+
+//const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 
 {
   /*local image <Image styles={styles.image} source={require("./assets/download.png")} />*/

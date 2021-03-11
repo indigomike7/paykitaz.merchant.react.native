@@ -10,8 +10,19 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
+import AppButton from "../components/appbutton";
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import $ from 'jquery';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { StackActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationActions } from 'react-navigation';
+//const pushAction = StackActions.push('Register2', { user: 'Wojtek' });
+import Register2Screen from './Register2Screen'
+import * as RootNavigation from './../../RootNavigation.js';
 
 	function submit()
 	{
@@ -36,10 +47,13 @@ import $ from 'jquery';
 	});
 	return false;
 	}
+	
+	
 	function submitform()
 	{
 		var data = new FormData();
 		var data = new FormData($("#nameform")[0]);
+		var statuz = false;
 		//data.append('store_name', $("input[name='store_name']").val());
 		//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
 		//    data.append('file-'+i, file);
@@ -53,24 +67,108 @@ import $ from 'jquery';
 			method: 'POST',
 			type: 'POST', // For jQuery < 1.9
 			success: function(data){
-				session_id_reg = data.session_id_reg;
-				alert(session_id_reg);
-				navigation.navigate('Register2');
+				//session_id_reg = data.session_id_reg;
+				//alert(session_id_reg);
+				//Keychain.setGenericPassword('session', data.session_id_reg);
+				AsyncStorage.setItem('@storage_Key', data.session_id_reg);
+				//navigation.navigate('Register2');
+				/*const value = await AsyncStorage.getItem('@storage_Key')
+    if(value !== null) {
+      // value previously stored
+    }
+				*/
+
+				//NavigationActions.navigate("Register2");
+				//this.props.navigation.dispatch(navigateAction);
+				navigate('SliderScreen', { userName: 'Lucy' });
+				alert("oyy");
 			}
 		});
-		return false;
 	}
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-const onSubmit = async values => {
-  await sleep(300);
-  submitform();
+	export const navigationRef = React.createRef();
+
+export function navigate(name, params) {
+  navigationRef.current?.navigate(name, params);
 }
-export default class App extends React.Component {
+
+function onSubmit(){
+			submitform();
+  }
+
+
+export default class Register1Screen extends React.Component {
+constructor(props){
+ super(props);
+ this. _submitform = this. _submitform.bind(this);
+	console.log(this.props);
+ console.log(props);
+}
+
+	_submitform(props)
+	{
+		var data = new FormData();
+		var data = new FormData($("#nameform")[0]);
+		var statuz = false;
+		//data.append('store_name', $("input[name='store_name']").val());
+		//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
+		//    data.append('file-'+i, file);
+		//});
+		$.ajax({
+			url: 'http://localhost/paykitaz-merchant-api/api/daftar',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			method: 'POST',
+			type: 'POST', // For jQuery < 1.9
+			success: function(data){
+				//session_id_reg = data.session_id_reg;
+				//alert(session_id_reg);
+				//Keychain.setGenericPassword('session', data.session_id_reg);
+				AsyncStorage.setItem('@storage_Key', data.session_id_reg);
+				//navigation.navigate('Register2');
+				/*const value = await AsyncStorage.getItem('@storage_Key')
+    if(value !== null) {
+      // value previously stored
+    }
+				*/
+
+				//NavigationActions.navigate("Register2");
+				//this.props.navigation.dispatch(navigateAction);
+				//navigate('Slider', { userName: 'Lucy' });
+//				this.setState({ component: <Register2Screen /> })
+				console.log('emmm');
+				console.log(props);
+				console.log('emmm');
+				console.log(this.props);
+//				this.props.navigation.navigate("Register2");
+				alert("oyy");
+
+			}
+		});
+				console.log('emmm');
+				console.log(props);
+				console.log('emmm');
+				console.log(this.props);
+				this.props.navigation.navigate("Register2");
+	}
+
 
 componentDidMount() {
 submit();
+//navigate('Slider', { userName: 'Lucy' });
+//navigate('SliderScreen', { userName: 'Lucy' });
+//this.changeState.bind({ component: <Register2Screen /> });
+//this.setState({ component: <Register2Screen /> });
+//NavigationActions.navigate('Register2Scren');
+//NavigationActions.navigate('SliderScreen');
+//NavigationActions.navigate('Slider');
+//this.props.navigation.navigate("SliderScreen");
+//this.props.navigation.navigate("Slider");
+//this.props.navigation.navigate("Register2Screen");
+alert("Test");
   }
 render(){
 return (
@@ -80,7 +178,7 @@ return (
     >
     <h1>Daftar Paykitaz Merchant</h1>
     <Form
-      onSubmit={onSubmit}
+      onSubmit={this._submitform}
       render={({ handleSubmit, reset, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit} name="nameform" id="nameform">
           <div>
@@ -152,7 +250,7 @@ return (
             />
           </div>
           <div className="buttons">
-            <button type="submit" disabled={submitting}>
+            <button type="submit" disabled={submitting} >
               Submit
             </button>
             <button type="button" onClick={reset} disabled={submitting}>
