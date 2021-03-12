@@ -70,7 +70,8 @@ import * as RootNavigation from './../../RootNavigation.js';
 				//session_id_reg = data.session_id_reg;
 				//alert(session_id_reg);
 				//Keychain.setGenericPassword('session', data.session_id_reg);
-				AsyncStorage.setItem('@storage_Key', data.session_id_reg);
+				AsyncStorage.setItem('session_id', data.session_id_reg);
+				alert(data.session_id_reg);
 				//navigation.navigate('Register2');
 				/*const value = await AsyncStorage.getItem('@storage_Key')
     if(value !== null) {
@@ -81,7 +82,7 @@ import * as RootNavigation from './../../RootNavigation.js';
 				//NavigationActions.navigate("Register2");
 				//this.props.navigation.dispatch(navigateAction);
 				navigate('SliderScreen', { userName: 'Lucy' });
-				alert("oyy");
+//				alert("oyy");
 			}
 		});
 	}
@@ -124,10 +125,26 @@ constructor(props){
 			method: 'POST',
 			type: 'POST', // For jQuery < 1.9
 			success: function(data){
-				//session_id_reg = data.session_id_reg;
+				var session_id_reg = data.session_id_reg;
 				//alert(session_id_reg);
 				//Keychain.setGenericPassword('session', data.session_id_reg);
-				AsyncStorage.setItem('@storage_Key', data.session_id_reg);
+				AsyncStorage.setItem('session_id', data.session_id_reg);
+				
+							let token = AsyncStorage.getItem('session_id');
+				console.log(token);
+				
+						if(token){
+						token.then(function(result)
+							{
+								console.log("Session di Form 1 : " + result);
+								console.log("ehemm");
+							}
+						);
+						
+					}
+
+				console.log("Session di Form 1 : " + data.session_id_reg);
+//				alert(data.session_id_reg);
 				//navigation.navigate('Register2');
 				/*const value = await AsyncStorage.getItem('@storage_Key')
     if(value !== null) {
@@ -144,7 +161,7 @@ constructor(props){
 				console.log('emmm');
 				console.log(this.props);
 //				this.props.navigation.navigate("Register2");
-				alert("oyy");
+//				alert("oyy");
 
 			}
 		});
@@ -168,7 +185,7 @@ submit();
 //this.props.navigation.navigate("SliderScreen");
 //this.props.navigation.navigate("Slider");
 //this.props.navigation.navigate("Register2Screen");
-alert("Test");
+//alert("Test");
   }
 render(){
 return (

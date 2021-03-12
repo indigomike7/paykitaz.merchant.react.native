@@ -1,0 +1,29 @@
+{
+  "name": "json-utils",
+  "version": "0.1.0",
+  "description": "json utilities",
+  "main": "json-utils.js",
+  "scripts": {
+    "test": "mocha test/test.*.js --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nherment/node-json-utils.git"
+  },
+  "keywords": [
+    "json",
+    "utils"
+  ],
+  "author": "Nicolas Herment <nherment@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nherment/node-json-utils/issues"
+  },
+  "homepage": "https://github.com/nherment/node-json-utils",
+  "dependencies": {
+    "json-lint": "0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "2.2.4"
+  }
+}

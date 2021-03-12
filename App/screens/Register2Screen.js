@@ -11,7 +11,7 @@ import {
   Image,
 } from "react-native";
 
-import * as Keychain from 'react-native-keychain';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import $ from 'jquery';
 
@@ -132,7 +132,7 @@ $(document).ready(
 			for(i=0;i<data.datax.length;i++)
 			{
 				//alert(data.datax[i].bt_name);
-						$("#kelurahan").append(new Option(data.datax[i].name, data.datax[i].id));
+						$("#merchant_kelurahan").append(new Option(data.datax[i].name, data.datax[i].id));
 
 			}
 			$("#div_isi").html("$('#province').on('change', function() { submit2(this.value); }); 	$('#kabupaten').on('change', function() { submit3(this.value); 	}); $('#kecamatan').on('change', function() { submit4(this.value); });");
@@ -174,6 +174,7 @@ const onSubmit = async values => {
   submitform();
 }
 export default class Register2Screen extends React.Component {
+	session_idx="";
 constructor(props){
  super(props);
  this. _submitform = this. _submitform.bind(this);
@@ -183,13 +184,16 @@ constructor(props){
 	_submitform(props)
 	{
 		var data = new FormData();
-		var data = new FormData($("#nameform")[0]);
-		const credentials = Keychain.getGenericPassword();
-		data.append('session_id',credentials.session);
-		//data.append('store_name', $("input[name='store_name']").val());
-		//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
-		//    data.append('file-'+i, file);
-		//});
+		var data = new FormData($("#nameform2")[0]);
+		var session = "";
+		AsyncStorage.getItem('session_id',(err,result) => {
+			this.session_idx = result;
+			console.log(this.session_idx);
+			console.log("emmm");
+			console.log(result);
+		});
+//		alert(token);
+		data.append('session_id',this.session_idx);
 		$.ajax({
 			url: 'http://localhost/paykitaz-merchant-api/api/daftar2',
 			data: data,
@@ -202,10 +206,15 @@ constructor(props){
 				//session_id_reg = data.session_id_reg;
 				//alert(session_id_reg);
 				//Keychain.setGenericPassword('session', data.session_id_reg);
-				navigation.navigate('Register2');
 				
 			}
 		});
+				console.log('emmm');
+				console.log(props);
+				console.log('emmm');
+				console.log(this.props);
+				this.props.navigation.navigate("RegisterVerifikasi");
+
 		return false;
 	}
 
@@ -226,7 +235,23 @@ $(document).ready(
 
 	}
 
-);  }
+);  
+/*
+let token = AsyncStorage.getItem('session_id');
+    console.log(token);
+	
+	        if(token){
+			token.then(function(result)
+				{
+					$("#session_id").val(result);
+					console.log("Session di Form 2 : " + result);
+					console.log("ehemm");
+				}
+			);
+			
+        }
+*/
+}
 render(){
 return (
   <Styles>
@@ -237,7 +262,7 @@ return (
     <Form
       onSubmit={this._submitform}
       render={({ handleSubmit, reset, submitting, pristine, values }) => (
-        <form onSubmit={handleSubmit} name="nameform" id="nameform">
+        <form onSubmit={handleSubmit} name="nameform" id="nameform2">
           <div>
             <label>Alamat</label><br/>
 			<Field name="merchant_address" component="textarea" placeholder="Alamat" required/>
@@ -278,7 +303,7 @@ return (
           <div>
             <label>Kelurahan</label><br/>
             <Field
-              name="kelurahan" id="kelurahan"
+              name="merchant_kelurahan" id="merchant_kelurahan"
               component="select"
               required
               >
@@ -296,6 +321,7 @@ return (
               minLength={4}
               tooShort="Mohon Masukkan Kode Pos"
             />
+			<input type="hidden" name="session_id" id="session_id"/>
           </div>
            <div className="buttons">
             <button type="submit" disabled={submitting}>

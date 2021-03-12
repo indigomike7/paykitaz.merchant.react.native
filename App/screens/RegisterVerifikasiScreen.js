@@ -17,14 +17,14 @@ const LoginRegisterScreen = ({navigation}) => {
   return (
     <ImageBackground
       style={styles.background}
-      source={require("../assets/daftar-masuk-bg.png")}
+      source={require("../assets/register-verifikasi-bg.png")}
     >
       <View style={styles.logoContainer}>
-        <Text style={styles.big}>Selamat! Data Anda Dalam Verifikasi oleh Kami</Text>
-        <Text style={styles.small}>Bla bla bla.Bla bla bla</Text>
+        <Text style={styles.big}></Text>
+        <Text style={styles.small}><br/></Text>
       </View>
       <View style={styles.buttonbox}>
-        <AppButton  title={"Lanjutkan"} size="sm" color="#64c098"  onPress={() => navigation.navigate('Register1')} />
+        <AppButton  title={"Lanjutkan"} size="sm" color="#64c098"  onPress={() => navigation.navigate('RegisterInputLoginData')} />
         
       </View>
     </ImageBackground>

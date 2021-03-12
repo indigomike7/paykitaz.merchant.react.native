@@ -20,6 +20,9 @@ import {
   useDimensions,
   useDeviceOrientation,
 } from "@react-native-community/hooks";  use this to support orientations */
+
+
+
 import WelcomeScreen from "./App/screens/welcomeScreen";
 import SliderScreen from "./App/screens/SliderScreen";
 import LoginRegisterScreen from "./App/screens/LoginRegisterScreen";
@@ -27,9 +30,14 @@ import LoginScreen from "./App/screens/LoginScreen";
 import Register1Screen from "./App/screens/Register1Screen";
 import Register2Screen from "./App/screens/Register2Screen";
 import RegisterVerifikasiScreen from "./App/screens/RegisterVerifikasiScreen";
+import RegisterInputLoginDataScreen from "./App/screens/RegisterInputLoginDataScreen";
 import ViewImageScreen from "./App/screens/viewimage";
 import CardCom from "./App/components/card";
 import ListingScreen from "./App/screens/listingScreen";
+import MainScreen from "./App/screens/MainScreen";
+
+
+
 //use safearea to make sure it's not covered
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -52,8 +60,9 @@ const App = () => {
         <Stack.Screen name="Register1" component={Register1Screen}  options={{ headerShown: false }} />
         <Stack.Screen name="Register2" component={Register2Screen}  options={{ headerShown: false }} />
         <Stack.Screen name="RegisterVerifikasi" component={RegisterVerifikasiScreen}  options={{ headerShown: false }} />
-        <Stack.Screen name="listings" component={ListingScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="RegisterInputLoginData" component={RegisterInputLoginDataScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Viewimage" component={ViewImageScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="Main" component={MainScreen}  options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

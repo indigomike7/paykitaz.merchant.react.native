@@ -8,13 +8,17 @@ import {
 } from "react-native";
 import AppButton from "../components/appbutton";
 import {Dimensions} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
  
 const dimensions = Dimensions.get('window');
 const imageHeight = dimensions.height ;
 const imageWidth = dimensions.width; 
+
+//  				AsyncStorage.setItem('session_id', "");
  
 const LoginRegisterScreen = ({navigation}) => {
   return (
+
     <ImageBackground
       style={styles.background}
       source={require("../assets/daftar-masuk-bg.png")}

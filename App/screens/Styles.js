@@ -91,8 +91,7 @@ export default styled.div`
     position: relative;
 
     & > div {
-      display: flex;
-      flex-flow: row nowrap;
+		width:100%;
       line-height: 2em;
       position: relative;
       padding: 8px 5px;
