@@ -113,7 +113,7 @@ constructor(props){
 		var data = new FormData();
 		var data = new FormData($("#nameformlogin")[0]);
 		$.ajax({
-			url: 'http://localhost/paykitaz-merchant-api/api/user/login',
+			url: 'http://localhost:8000/api/login',
 			data: data,
 			cache: false,
 			contentType: false,
@@ -140,7 +140,10 @@ constructor(props){
 			//alert( "error" );
 					$("#error_warn").html("Gagal Login! <br>No Handphone dan / atau Password Salah.");
 		});
+		if(this.status_login)
+		{
 				this.props.navigation.navigate("Main");
+		}
 	}
 
 
