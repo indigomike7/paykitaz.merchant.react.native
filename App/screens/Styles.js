@@ -36,7 +36,7 @@ const btnDanger = btn('#e27c79', '#c9302c')
 
 export default styled.div`
   font-family: sans-serif;
-        background-image:url('register_1_bg.png');
+        background-image:url('../assets/register_1_bg.png');
 		width:100%;
 
   h1 {
@@ -46,6 +46,11 @@ export default styled.div`
 	padding:20px;
   }
 
+div.register_1_bg
+{
+        background-image:url('../assets/register_1_bg.png');
+	
+}
   h2 {
     text-align: center;
     color: #222;

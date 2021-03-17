@@ -27,7 +27,7 @@ import * as RootNavigation from './../../RootNavigation.js';
 	function submit()
 	{
 	$.ajax({
-		url: 'http://localhost/paykitaz-merchant-api/api/paket/businesstype',
+		url: 'http://localhost:8000/api/businesstype',
 		data: "test=test",
 		cache: false,
 		contentType: false,
@@ -117,7 +117,7 @@ constructor(props){
 		//    data.append('file-'+i, file);
 		//});
 		$.ajax({
-			url: 'http://localhost/paykitaz-merchant-api/api/daftar',
+			url: 'http://localhost:8000/api/daftar',
 			data: data,
 			cache: false,
 			contentType: false,
@@ -190,9 +190,7 @@ submit();
 render(){
 return (
   <Styles>
-    <ImageBackground
-      source={require("../assets/register_1_bg.png")}
-    >
+	<div class="register_1_bg">
     <h1>Daftar Paykitaz Merchant</h1>
     <Form
       onSubmit={this._submitform}
@@ -277,7 +275,7 @@ return (
         </form>
       )}
     />
-    </ImageBackground>
+    </div>
   </Styles>
 )
 

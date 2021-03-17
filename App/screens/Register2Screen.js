@@ -35,7 +35,7 @@ $(document).ready(
 	function submit()
 	{
 	$.ajax({
-		url: 'http://localhost/paykitaz-merchant-api/api/paket/province',
+		url: 'http://localhost:8000/api/province',
 		data: "test=test",
 		cache: false,
 		contentType: false,
@@ -45,11 +45,13 @@ $(document).ready(
 		success: function(data){
 			//alert(data.datax[0].bt_name);
 			var i;
+			if(data.datax) {
 			for(i=0;i<data.datax.length;i++)
 			{
 				//alert(data.datax[i].bt_name);
 						$("#province").append(new Option(data.datax[i].name, data.datax[i].id));
 
+			}
 			}
 		}
 	});
@@ -60,7 +62,7 @@ $(document).ready(
 		var fd = new FormData();
 		fd.append("province_id",id);
 	$.ajax({
-		url: 'http://localhost/paykitaz-merchant-api/api/paket/kabupaten',
+		url: 'http://localhost:8000/api/kabupaten',
 		data: fd,
 		cache: false,
 		contentType: false,
@@ -71,13 +73,16 @@ $(document).ready(
 			//alert(data.datax[0].bt_name);
 			var i;
 			$("#kabupaten").empty();
+			$("#kabupaten").append(new Option("-- Select --", "0"));
+			if(data.datax) {
 			for(i=0;i<data.datax.length;i++)
 			{
 				//alert(data.datax[i].bt_name);
 				$("#kabupaten").append(new Option(data.datax[i].name, data.datax[i].id));
 
 			}
-			$("#div_isi").html("$('#province').on('change', function() { submit2(this.value); }); 	$('#kabupaten').on('change', function() { submit3(this.value); 	}); $('#kecamatan').on('change', function() { submit4(this.value); });");
+			}
+//			$("#div_isi").html("$('#province').on('change', function() { submit2(this.value); }); 	$('#kabupaten').on('change', function() { submit3(this.value); 	}); $('#kecamatan').on('change', function() { submit4(this.value); });");
 			
 
 		}
@@ -89,7 +94,7 @@ $(document).ready(
 		var fd = new FormData();
 		fd.append("regency_id",id);
 	$.ajax({
-		url: 'http://localhost/paykitaz-merchant-api/api/paket/kecamatan',
+		url: 'http://localhost:8000/api/kecamatan',
 		data: fd,
 		cache: false,
 		contentType: false,
@@ -100,13 +105,16 @@ $(document).ready(
 			//alert(data.datax[0].bt_name);
 			var i;
 			$("#kecamatan").empty();
+			$("#kecamatan").append(new Option("-- Select --", "0"));
+			if(data.datax) {
 			for(i=0;i<data.datax.length;i++)
 			{
 				//alert(data.datax[i].bt_name);
 						$("#kecamatan").append(new Option(data.datax[i].name, data.datax[i].id));
 
 			}
-			$("#div_isi").html("$('#province').on('change', function() { submit2(this.value); }); 	$('#kabupaten').on('change', function() { submit3(this.value); 	}); $('#kecamatan').on('change', function() { submit4(this.value); });");
+			}
+			///$("#div_isi").html("$('#province').on('change', function() { submit2(this.value); }); 	$('#kabupaten').on('change', function() { submit3(this.value); 	}); $('#kecamatan').on('change', function() { submit4(this.value); });");
 			
 					
 		}
@@ -118,7 +126,7 @@ $(document).ready(
 		var fd = new FormData();
 		fd.append("district_id",id);
 	$.ajax({
-		url: 'http://localhost/paykitaz-merchant-api/api/paket/kelurahan',
+		url: 'http://localhost:8000/api/kelurahan',
 		data: fd,
 		cache: false,
 		contentType: false,
@@ -128,14 +136,17 @@ $(document).ready(
 		success: function(data){
 			//alert(data.datax[0].bt_name);
 			var i;
-			$("#kelurahan").empty();
+			$("#merchant_kelurahan").empty();
+			$("#merchant_kelurahan").append(new Option("-- Select --", "0"));
+			if(data.datax) {
 			for(i=0;i<data.datax.length;i++)
 			{
 				//alert(data.datax[i].bt_name);
 						$("#merchant_kelurahan").append(new Option(data.datax[i].name, data.datax[i].id));
 
 			}
-			$("#div_isi").html("$('#province').on('change', function() { submit2(this.value); }); 	$('#kabupaten').on('change', function() { submit3(this.value); 	}); $('#kecamatan').on('change', function() { submit4(this.value); });");
+			}
+			//$("#div_isi").html("$('#province').on('change', function() { submit2(this.value); }); 	$('#kabupaten').on('change', function() { submit3(this.value); 	}); $('#kecamatan').on('change', function() { submit4(this.value); });");
 		}
 	});
 	return false;
@@ -149,7 +160,7 @@ $(document).ready(
 		//    data.append('file-'+i, file);
 		//});
 		$.ajax({
-			url: 'http://localhost/paykitaz-merchant-api/api/daftar2',
+			url: 'http://localhost:8000/api/daftar2',
 			data: data,
 			cache: false,
 			contentType: false,

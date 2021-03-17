@@ -9,6 +9,11 @@ import {
 import AppButton from "../components/appbutton";
 import {Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Styles from './Styles'
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+ 
+
+
  
 const dimensions = Dimensions.get('window');
 const imageHeight = dimensions.height ;
@@ -18,7 +23,7 @@ const imageWidth = dimensions.width;
  
 const LoginRegisterScreen = ({navigation}) => {
   return (
-
+  <View style={styles.container}>
     <ImageBackground
       style={styles.background}
       source={require("../assets/daftar-masuk-bg.png")}
@@ -36,16 +41,27 @@ const LoginRegisterScreen = ({navigation}) => {
         
       </View>
     </ImageBackground>
+  </View>
   );
 };
 
 export default LoginRegisterScreen;
 const styles = StyleSheet.create({
-  background: {
+container: {
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    width: "100%",
+    position: 'relative',
+	height:'200%',
+	backgroundColor:'#d8f7e9',
+  },
+  background: {
+    resizeMode: 'cover',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+	height:null,
+	width:null,
   },
 buttonbox: {
 	marginRight:40,
@@ -82,15 +98,15 @@ buttonbox2: {
     borderRadius: 250,
   },
   big: {
-    fontSize: imageWidth/imageHeight*80,
+    fontSize: RFPercentage(6.5),
     justifyContent: "center",
     color: "black",
     alignItems: "center",
-	marginTop:210,
+	marginTop:180,
 	padding:imageWidth/imageHeight*40,
   },
   small: {
-    fontSize: imageWidth/imageHeight*40,
+    fontSize: RFPercentage(4.5),
     justifyContent: "center",
     color: "black",
     alignItems: "center",
