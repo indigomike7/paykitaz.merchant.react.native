@@ -104,14 +104,23 @@ export default class Register1Screen extends React.Component {
 constructor(props){
  super(props);
  this. _submitform = this. _submitform.bind(this);
+ this. _navigate = this. _navigate.bind(this);
 	console.log(this.props);
  console.log(props);
 }
 
+	_navigate(props)
+	{
+		this.props.navigation.navigate("Main");
+		console.log(props);
+		console.log(this.props);
+		alert("masuk");
+	}
 	_submitform(props)
 	{
 		var data = new FormData();
 		var data = new FormData($("#nameformlogin")[0]);
+		var statusq = false;
 		$.ajax({
 			url: 'http://localhost:8000/api/login',
 			data: data,
@@ -120,8 +129,8 @@ constructor(props){
 			processData: false,
 			method: 'POST',
 			type: 'POST', // For jQuery < 1.9
-			success: function(data){
-				alert(data);
+			success: function(data,statusq){
+				//alert(data);
 				console.log(data);
 				if(data.status==true)
 				{
@@ -129,26 +138,42 @@ constructor(props){
 				AsyncStorage.setItem('user_name', data.user_name);
 				AsyncStorage.setItem('token', data.token);
 				this.status_login = true;
+				statusq = true;
+					$("#statushidden").val("ok");
 				}
 				else
 				{
 					$("#error_warn").html("Gagal Login! No Handphone dan / atau Password Salah.");
+					$("#statushidden").val("not ok");
+					
 				}
-				alert(this.status_login);
+				//alert(this.status_login);
 			}
 		}).fail(function() {
 			//alert( "error" );
 					$("#error_warn").html("Gagal Login! <br>No Handphone dan / atau Password Salah.");
+					$("#statushidden").val("not ok");
+					
 		});
-		if(this.status_login)
+		console.log(props);
+		console.log("test");
+		console.log(this.props);
+		var x = $("#statushidden").val();
+		//alert(x);
+		if(x=="not ok")
 		{
-				this.props.navigation.navigate("Main");
+			//alert("xxx");
+			return false;
 		}
+		this.props.navigation.navigate("Main");
+		console.log(this.props);
 	}
 
 
 componentDidMount() {
 submit();
+ this._submitform = this._submitform.bind(this);
+ this._navigate = this._navigate.bind(this);
 //navigate('Slider', { userName: 'Lucy' });
 //navigate('SliderScreen', { userName: 'Lucy' });
 //this.changeState.bind({ component: <Register2Screen /> });
@@ -173,6 +198,7 @@ return (
       render={({ handleSubmit, reset, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit} name="nameformlogin" id="nameformlogin">
           <div id="error_warn">
+		  <input type="hidden" id="statushidden" name="statushidden" value="not ok"/>
           </div>
           <div>
             <label>Phone Number</label><br/>
