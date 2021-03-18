@@ -26,44 +26,6 @@ import * as RootNavigation from './../../RootNavigation.js';
 
 	
 	
-	function submitform()
-	{
-		var data = new FormData();
-		var data = new FormData($("#nameform")[0]);
-		var statuz = false;
-		//data.append('store_name', $("input[name='store_name']").val());
-		//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
-		//    data.append('file-'+i, file);
-		//});
-		$.ajax({
-			url: 'http://localhost/paykitaz-merchant-api/api/daftar',
-			data: data,
-			cache: false,
-			contentType: false,
-			processData: false,
-			method: 'POST',
-			type: 'POST', // For jQuery < 1.9
-			success: function(data){
-				//session_id_reg = data.session_id_reg;
-				//alert(session_id_reg);
-				//Keychain.setGenericPassword('session', data.session_id_reg);
-				AsyncStorage.setItem('session_id', data.session_id_reg);
-				alert(data.session_id_reg);
-				//navigation.navigate('Register2');
-				/*const value = await AsyncStorage.getItem('@storage_Key')
-    if(value !== null) {
-      // value previously stored
-    }
-				*/
-
-				//NavigationActions.navigate("Register2");
-				//this.props.navigation.dispatch(navigateAction);
-				navigate('SliderScreen', { userName: 'Lucy' });
-//				alert("oyy");
-			}
-		});
-	}
-
 
 	export const navigationRef = React.createRef();
 
@@ -85,20 +47,26 @@ constructor(props){
  console.log(props);
 }
 
-	_submitform(props)
+	async _submitform(props)
 	{
 		var data = new FormData();
+		var session_id = $("#session_idx").val();
+			if(session_id == "")
+			{
+				AsyncStorage.getItem('session_id',(err,result) => {
+						$("#session_idx").val(result);
+						//alert(result);
+					console.log(this.session_idx);
+					console.log("emmm");
+					console.log(result);
+				});
+			}
 		var data = new FormData($("#nameform3")[0]);
-		AsyncStorage.getItem('session_id',(err,result) => {
-			this.session_idx = result;
-			console.log(this.session_idx);
-			console.log("emmm");
-			console.log(result);
-		});
-				data.append('session_id',this.session_idx);
+		var working = false;
+//				data.append('session_id',this.session_idx);
 
-		$.ajax({
-			url: 'http://localhost/paykitaz-merchant-api/api/daftar3',
+		await $.ajax({
+			url: 'http://localhost:8000/api/daftar3',
 			data: data,
 			cache: false,
 			contentType: false,
@@ -106,51 +74,45 @@ constructor(props){
 			method: 'POST',
 			type: 'POST', // For jQuery < 1.9
 			success: function(data){
-				var session_id_reg = data.session_id_reg;
-				//alert(session_id_reg);
-				//Keychain.setGenericPassword('session', data.session_id_reg);
-				AsyncStorage.setItem('session_id', data.session_id_reg);
-				
-							let token = AsyncStorage.getItem('session_id');
-				console.log(token);
-				
-						if(token){
-						token.then(function(result)
-							{
-								console.log("Session di Form 1 : " + result);
-								console.log("ehemm");
-							}
-						);
-						
-					}
 
+				if(data.status == false)
+				{
+					//alert("data.status = false");
+					$('#error_warn').html(data.error);
+					$("#statushidden").val("false");
+					AsyncStorage.setItem('login',"false")
+				}
+				else
+				{
+					//alert("data.status = trues");
+					$("#statushidden").val("true");
+					AsyncStorage.setItem('login',"true")
+				}
 				console.log("Session di Form 1 : " + data.session_id_reg);
-//				alert(data.session_id_reg);
-				//navigation.navigate('Register2');
-				/*const value = await AsyncStorage.getItem('@storage_Key')
-    if(value !== null) {
-      // value previously stored
-    }
-				*/
-
-				//NavigationActions.navigate("Register2");
-				//this.props.navigation.dispatch(navigateAction);
-				//navigate('Slider', { userName: 'Lucy' });
-//				this.setState({ component: <Register2Screen /> })
 				console.log('emmm');
 				console.log(props);
 				console.log('emmm');
 				console.log(this.props);
-//				this.props.navigation.navigate("Register2");
-//				alert("oyy");
 
 			}
-		});
-				console.log('emmm');
-				console.log(props);
-				console.log('emmm');
-				console.log(this.props);
+		}).done(
+				function(data){
+				AsyncStorage.getItem('login',(err,result) => {
+					//$("#statushidden").val(result);
+				});
+				working = true;
+			}
+		);
+					var x = $("#statushidden").val();
+					//alert(x);
+					if(x == "not ok" || x == "false")
+					{
+						//alert("not to login");
+						return false;
+					}
 				this.props.navigation.navigate("Login");
+		
+
 	}
 
 
@@ -179,7 +141,12 @@ return (
       onSubmit={this._submitform}
       render={({ handleSubmit, reset, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit} name="nameform3" id="nameform3">
+		  <div>Masukkan Data untuk anda Login. Masukkan Nomor HP, Email, Username dan Password Anda<br/><br/></div>
+          <div id="error_warn">
+          </div>
           <div>
+		  <input type="hidden" id="statushidden" name="statushidden" value="not ok"/>
+		  <input type="hidden" id="session_idx" name="session_idx" value=""/>
             <label>Nomor Handphone</label><br/>
             <Field
               name="phone_number"

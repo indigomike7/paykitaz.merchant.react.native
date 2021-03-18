@@ -206,7 +206,7 @@ constructor(props){
 //		alert(token);
 		data.append('session_id',this.session_idx);
 		$.ajax({
-			url: 'http://localhost/paykitaz-merchant-api/api/daftar2',
+			url: 'http://localhost:8000/api/daftar2',
 			data: data,
 			cache: false,
 			contentType: false,
