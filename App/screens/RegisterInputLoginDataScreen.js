@@ -42,12 +42,12 @@ export default class Register1Screen extends React.Component {
 	session_idx="";
 constructor(props){
  super(props);
- this. _submitform = this. _submitform.bind(this);
+ this. _secondFunction = this. _secondFunction.bind(this);
 	console.log(this.props);
  console.log(props);
 }
 
-	async _submitform(props)
+	async send()
 	{
 		var data = new FormData();
 		var session_id = $("#session_idx").val();
@@ -65,7 +65,7 @@ constructor(props){
 		var working = false;
 //				data.append('session_id',this.session_idx);
 
-		await $.ajax({
+		 await $.ajax({
 			url: 'http://localhost:8000/api/daftar3',
 			data: data,
 			cache: false,
@@ -73,46 +73,56 @@ constructor(props){
 			processData: false,
 			method: 'POST',
 			type: 'POST', // For jQuery < 1.9
-			success: function(data){
+			success: await function(data){
 
-				if(data.status == false)
+				if(data.status == true)
 				{
-					//alert("data.status = false");
-					$('#error_warn').html(data.error);
-					$("#statushidden").val("false");
-					AsyncStorage.setItem('login',"false")
+					//alert("data.status = trues");
+					$("#statushiddenz").val("ok");
 				}
 				else
 				{
-					//alert("data.status = trues");
-					$("#statushidden").val("true");
-					AsyncStorage.setItem('login',"true")
+					//alert("data.status = false");
+					$('#error_warn').html(data.error);
+					$("#statushiddenz").val("not ok");
 				}
-				console.log("Session di Form 1 : " + data.session_id_reg);
-				console.log('emmm');
-				console.log(props);
-				console.log('emmm');
-				console.log(this.props);
 
 			}
 		}).done(
-				function(data){
-				AsyncStorage.getItem('login',(err,result) => {
-					//$("#statushidden").val(result);
-				});
-				working = true;
-			}
-		);
-					var x = $("#statushidden").val();
-					//alert(x);
-					if(x == "not ok" || x == "false")
-					{
-						//alert("not to login");
-						return false;
-					}
-				this.props.navigation.navigate("Login");
-		
+				await function(data){
+				if(data.status == true)
+				{
+					//alert("data.status = trues");
+					$("#statushiddenz").val("ok");
+				}
+				else
+				{
+					//alert("data.status = false");
+					$('#error_warn').html(data.error);
+					$("#statushiddenz").val("not ok");
+				}
+		}).fail(function() {
+			//alert( "error" );
+					$("#error_warn").html("Gagal Register. Ada masalah dengan Koneksi Anda");
+					$("#statushiddenz").val("not ok");
+					
+		});
 
+	}
+	async  _secondFunction(props){
+		await this.send();
+		console.log(props);
+		console.log("test");
+		console.log(this.props);
+		var x = $("#statushiddenz").val();
+		alert(x);
+		if(x=="not ok" || x==false || x==undefined)
+		{
+			//alert("xxx");
+			return false;
+		}
+		this.props.navigation.navigate("Login");
+		console.log(this.props);
 	}
 
 
@@ -138,14 +148,14 @@ return (
     >
     <h1>Daftar Paykitaz Merchant</h1>
     <Form
-      onSubmit={this._submitform}
+      onSubmit={this._secondFunction}
       render={({ handleSubmit, reset, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit} name="nameform3" id="nameform3">
 		  <div>Masukkan Data untuk anda Login. Masukkan Nomor HP, Email, Username dan Password Anda<br/><br/></div>
           <div id="error_warn">
           </div>
           <div>
-		  <input type="hidden" id="statushidden" name="statushidden" value="not ok"/>
+		  <input type="hidden" id="statushiddenz" name="statushiddenz" value="not ok"/>
 		  <input type="hidden" id="session_idx" name="session_idx" value=""/>
             <label>Nomor Handphone</label><br/>
             <Field

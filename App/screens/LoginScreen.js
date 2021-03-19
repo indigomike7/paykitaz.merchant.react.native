@@ -103,7 +103,7 @@ export default class Register1Screen extends React.Component {
 	status_login = false;
 constructor(props){
  super(props);
- this. _submitform = this. _submitform.bind(this);
+ this. _secondFunction = this. _secondFunction.bind(this);
  this. _navigate = this. _navigate.bind(this);
 	console.log(this.props);
  console.log(props);
@@ -116,12 +116,12 @@ constructor(props){
 		console.log(this.props);
 		alert("masuk");
 	}
-	_submitform(props)
+	async send()
 	{
 		var data = new FormData();
 		var data = new FormData($("#nameformlogin")[0]);
 		var statusq = false;
-		$.ajax({
+		await  $.ajax({
 			url: 'http://localhost:8000/api/login',
 			data: data,
 			cache: false,
@@ -129,9 +129,28 @@ constructor(props){
 			processData: false,
 			method: 'POST',
 			type: 'POST', // For jQuery < 1.9
-			success: function(data,statusq){
-				//alert(data);
+			success: await function(data){
+				alert("success");
 				console.log(data);
+				if(data.status==true)
+				{
+				AsyncStorage.setItem('login_id', data.login_id);
+				AsyncStorage.setItem('user_name', data.user_name);
+				AsyncStorage.setItem('token', data.token);
+				this.status_login = true;
+					$("#statushidden").val("ok");
+				}
+				else
+				{
+					$("#error_warn").html("Gagal Login! No Handphone dan / atau Password Salah.");
+					$("#statushidden").val("not ok");
+					
+				}
+				//alert(this.status_login);
+			}
+		}).done(await function(data) {
+				alert("ajax done");
+				alert(data.status);
 				if(data.status==true)
 				{
 				AsyncStorage.setItem('login_id', data.login_id);
@@ -148,43 +167,36 @@ constructor(props){
 					
 				}
 				//alert(this.status_login);
-			}
+
 		}).fail(function() {
-			//alert( "error" );
+			alert( "ajax failed" );
 					$("#error_warn").html("Gagal Login! <br>No Handphone dan / atau Password Salah.");
 					$("#statushidden").val("not ok");
 					
 		});
+		}
+	async _secondFunction(props){
+	await this.send();
+  // now wait for firstFunction to finish...
+  // do something else
 		console.log(props);
 		console.log("test");
 		console.log(this.props);
-		var x = $("#statushidden").val();
-		//alert(x);
-		if(x=="not ok")
+		var x = "";
+		x = $("#statushidden").val();
+		alert(x);
+		if(x=="not ok" || x == undefined)
 		{
 			//alert("xxx");
 			return false;
 		}
 		this.props.navigation.navigate("Main");
 		console.log(this.props);
-	}
+		}
+	
 
 
 componentDidMount() {
-submit();
- this._submitform = this._submitform.bind(this);
- this._navigate = this._navigate.bind(this);
-//navigate('Slider', { userName: 'Lucy' });
-//navigate('SliderScreen', { userName: 'Lucy' });
-//this.changeState.bind({ component: <Register2Screen /> });
-//this.setState({ component: <Register2Screen /> });
-//NavigationActions.navigate('Register2Scren');
-//NavigationActions.navigate('SliderScreen');
-//NavigationActions.navigate('Slider');
-//this.props.navigation.navigate("SliderScreen");
-//this.props.navigation.navigate("Slider");
-//this.props.navigation.navigate("Register2Screen");
-//alert("Test");
   }
 render(){
 return (
@@ -194,13 +206,13 @@ return (
     >
     <h1>Login Merchant Paykitaz</h1>
     <Form
-      onSubmit={this._submitform}
+      onSubmit={this._secondFunction}
       render={({ handleSubmit, reset, submitting, pristine, values }) => (
         <form onSubmit={handleSubmit} name="nameformlogin" id="nameformlogin">
           <div id="error_warn">
-		  <input type="hidden" id="statushidden" name="statushidden" value="not ok"/>
           </div>
           <div>
+		  <input type="hidden" id="statushidden" name="statushidden" value="not ok"/>
             <label>Phone Number</label><br/>
             <Field
               name="phone_number"

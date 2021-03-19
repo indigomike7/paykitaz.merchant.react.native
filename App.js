@@ -1,5 +1,5 @@
 //import { StatusBar } from "expo-status-bar";
-import React from "react";
+import * as React from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -35,7 +35,10 @@ import ViewImageScreen from "./App/screens/viewimage";
 import CardCom from "./App/components/card";
 import ListingScreen from "./App/screens/listingScreen";
 import MainScreen from "./App/screens/MainScreen";
-
+import AccountScreen from "./App/screens/AccountScreen";
+import
+ MaterialCommunityIcons
+from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 //use safearea to make sure it's not covered
@@ -43,6 +46,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Cartbar from "./App/components/cartbar";
 import { navigationRef } from './RootNavigation';
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
+
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 
 const App = () => {
@@ -63,11 +74,19 @@ const App = () => {
         <Stack.Screen name="RegisterInputLoginData" component={RegisterInputLoginDataScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Viewimage" component={ViewImageScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="Account" component={AccountScreen}  options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 };
 export default App;
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -80,6 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 48,
   },
 });
+
 
 //const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 

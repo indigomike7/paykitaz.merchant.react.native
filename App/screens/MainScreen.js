@@ -1,4 +1,8 @@
-import React from "react";
+import React from 'react'
+import { render } from 'react-dom'
+import Styles from './LoginStyles'
+import { Form } from 'react-final-form'
+import { Field } from 'react-final-form-html5-validation'
 import {
   StyleSheet,
   Text,
@@ -7,126 +11,129 @@ import {
   Image,
 } from "react-native";
 import AppButton from "../components/appbutton";
-import {Dimensions} from 'react-native';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
- import { BottomNavigation } from 'react-native-paper';
- 
- 
-const dimensions = Dimensions.get('window');
-const imageHeight = dimensions.height ;
-const imageWidth = dimensions.width; 
 
-//  				AsyncStorage.setItem('session_id', "");
- 
-const LoginRegisterScreen = ({navigation}) => {
+import $ from 'jquery';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { StackActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationActions } from 'react-navigation';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import
+ MaterialCommunityIcons
+from 'react-native-vector-icons/MaterialCommunityIcons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
+export default class MainScreen extends React.Component
+{
+constructor(props){
+ super(props);
+	console.log(this.props);
+ console.log(props);
+}
+	render(){
+		return(
+			<View>
+			<Text>Main</Text>
+			<footerScr/>
+			</View>
+		);
+	}
+}
+
+
+
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function HomeStack() {
   return (
-
-    <ImageBackground
-      style={styles.background}
-      source={require("../assets/daftar-masuk-bg.png")}
-    >
-      <View style={styles.logoContainer}>
-        <Text style={styles.big}>Home</Text>
-        <Text style={styles.small}>Semua alat untuk mengelola dan mengembangkan bisnis anda</Text>
-      </View>
-    </ImageBackground>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerStyle: { backgroundColor: '#42f44b' },
+          headerTintColor: '#fff',
+          headerTitleStyle: { fontWeight: 'bold' }
+        }}>
+        <Stack.Screen
+          name="Home"
+          component={MainScreen}
+          options={{ title: 'Home Page' }}/>
+        <Stack.Screen
+          name="Account"
+          component={AccountScreen}
+          options={{ title: 'Details Page' }} />
+      </Stack.Navigator>
   );
-};
+}
 
-export default LoginRegisterScreen;
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    width: "100%",
-  },
-buttonbox: {
-	marginRight:40,
-    marginLeft:40,
-	marginTop:10,
-    paddingLeft:10,
-    paddingRight:10,
-    paddingTop:10,
-	width:240,
-    paddingBottom:10,
-    backgroundColor:'#64c098',
-    borderRadius:22,
-    borderWidth: 1,
-    borderColor: '#fff'
-},
-buttonbox2: {
-	marginRight:40,
-    marginLeft:40,
-	marginTop:10,
-    paddingLeft:10,
-    paddingRight:10,
-    paddingTop:10,
-	width:240,
-    paddingBottom:10,
-    backgroundColor:'blue',
-    borderRadius:22,
-    borderWidth: 1,
-    borderColor: '#fff'
-},
-  logo: {
-    width: 100,
-    height: 100,
-    backgroundColor: "white",
-    borderRadius: 250,
-  },
-  big: {
-    fontSize: imageWidth/imageHeight*80,
-    justifyContent: "center",
-    color: "black",
-    alignItems: "center",
-	marginTop:210,
-	padding:imageWidth/imageHeight*40,
-  },
-  small: {
-    fontSize: imageWidth/imageHeight*40,
-    justifyContent: "center",
-    color: "black",
-    alignItems: "center",
-	padding:imageWidth/imageHeight*40,
-  }
-  ,  logoContainer: {
-    marginTop: (imageHeight/(imageHeight+740))*300,
-    alignItems: "center",
-  },
-  masuk:
-  {
-  }
-  ,
-});
-
-
-const MyComponent = () => {
-const MusicRoute = () => <Text>Music</Text>;
-
-const AlbumsRoute = () => <Text>Albums</Text>;
-
-const RecentsRoute = () => <Text>Recents</Text>;
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'music', title: 'Music', icon: 'queue-music' },
-    { key: 'albums', title: 'Albums', icon: 'album' },
-    { key: 'recents', title: 'Recents', icon: 'history' },
-  ]);
-
-  const renderScene = BottomNavigation.SceneMap({
-    music: MusicRoute,
-    albums: AlbumsRoute,
-    recents: RecentsRoute,
-  });
-
+function SettingsStack() {
   return (
-    <BottomNavigation
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-    />
+    <Stack.Navigator
+      initialRouteName="Settings"
+      screenOptions={{
+        headerStyle: { backgroundColor: '#42f44b' },
+        headerTintColor: '#fff',
+        headerTitleStyle: { fontWeight: 'bold' }
+      }}>
+      <Stack.Screen
+        name="Account"
+        component={AccountScreen}
+        options={{ title: 'Setting Page' }}/>
+      <Stack.Screen
+        name="Home"
+        component={MainScreen}
+        options={{ title: 'Details Page' }}/>
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ title: 'Profile Page' }}/>
+    </Stack.Navigator>
   );
-};
+}
+function footerScr()
+{
+  return (
+    <NavigationContainer independent={true}>
+      <Tab.Navigator
+        initialRouteName="Feed"
+        tabBarOptions={{
+          activeTintColor: '#42f44b',
+        }}>
+        <Tab.Screen
+          name="HomeStack"
+          component={HomeStack}
+          options={{
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons
+                name="home"
+                color={color}
+                size={size}
+              />
+            ),
+          }}  />
+        <Tab.Screen
+          name="SettingsStack"
+          component={SettingsStack}
+          options={{
+            tabBarLabel: 'Settings',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons
+                name="settings"
+                color={color}
+                size={size}
+              />
+            ),
+          }} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
 
-export {MyComponent};
+
+//import FooterScreen from './FooterScreen';
