@@ -36,6 +36,11 @@ import CardCom from "./App/components/card";
 import ListingScreen from "./App/screens/listingScreen";
 import MainScreen from "./App/screens/MainScreen";
 import AccountScreen from "./App/screens/AccountScreen";
+import QRCodeScreen from "./App/screens/QRCodeScreen";
+import DataScreen from "./App/screens/DataScreen";
+import SettingsScreen from "./App/screens/SettingsScreen";
+
+
 import
  MaterialCommunityIcons
 from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -75,6 +80,9 @@ const App = () => {
         <Stack.Screen name="Viewimage" component={ViewImageScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Account" component={AccountScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="QRCode" component={QRCodeScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="Data" component={DataScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="Settings" component={SettingsScreen}  options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
 

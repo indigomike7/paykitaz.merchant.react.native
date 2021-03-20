@@ -130,7 +130,7 @@ constructor(props){
 			method: 'POST',
 			type: 'POST', // For jQuery < 1.9
 			success: await function(data){
-				alert("success");
+				//alert("success");
 				console.log(data);
 				if(data.status==true)
 				{
@@ -149,8 +149,8 @@ constructor(props){
 				//alert(this.status_login);
 			}
 		}).done(await function(data) {
-				alert("ajax done");
-				alert(data.status);
+				//alert("ajax done");
+				//alert(data.status);
 				if(data.status==true)
 				{
 				AsyncStorage.setItem('login_id', data.login_id);
@@ -184,7 +184,7 @@ constructor(props){
 		console.log(this.props);
 		var x = "";
 		x = $("#statushidden").val();
-		alert(x);
+		//alert(x);
 		if(x=="not ok" || x == undefined)
 		{
 			//alert("xxx");
