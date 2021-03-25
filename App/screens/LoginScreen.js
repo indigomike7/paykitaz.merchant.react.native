@@ -108,6 +108,11 @@ constructor(props){
 	console.log(this.props);
  console.log(props);
 }
+NavigateNotActive(props)
+{
+	this.props.navigation.navigate('MainNotActive');
+	return true;
+}
 
 	_navigate(props)
 	{
@@ -140,6 +145,16 @@ constructor(props){
 				AsyncStorage.setItem('logout', '0');
 				this.status_login = true;
 					$("#statushidden").val("ok");
+					if(data.data.active ==true)
+					{
+						AsyncStorage.setItem('statuslogin','1')
+					}
+					else
+					{
+						AsyncStorage.setItem('statuslogin','0')
+						
+					}
+
 				}
 				else
 				{
@@ -161,6 +176,15 @@ constructor(props){
 				this.status_login = true;
 				statusq = true;
 					$("#statushidden").val("ok");
+					if(data.data.active ==true)
+					{
+						AsyncStorage.setItem('statuslogin','1')
+					}
+					else
+					{
+						AsyncStorage.setItem('statuslogin','0')
+						
+					}
 				}
 				else
 				{
@@ -185,11 +209,23 @@ constructor(props){
 		console.log("test");
 		console.log(this.props);
 		var x = "";
+		var y="";
 		x = $("#statushidden").val();
 		//alert(x);
+		AsyncStorage.getItem('statuslogin',(err,result) => {
+			y =result;
+			console.log("emmm");
+			console.log(result);
+		});
+
 		if(x=="not ok" || x == undefined)
 		{
 			//alert("xxx");
+			return false;
+		}
+		if(y=="0")
+		{
+			this.NavigateNotActive();
 			return false;
 		}
 		this.props.navigation.navigate("Main");

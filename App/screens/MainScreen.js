@@ -92,13 +92,13 @@ constructor(props){
 <Icon name='qrcode'  style={{ color: "#fff" }}/>
             <Text  style={{ color: "#fff" }}>QR Code</Text>
 </Button>
-<Button onPress={() => this.props.navigation.navigate("Settings")} style={{ backgroundColor: "#fa8405", padding:8, }}>
+<Button onPress={() => this.props.navigation.navigate("Account")} style={{ backgroundColor: "#fa8405", padding:8, }}>
 <Icon name='cog'  style={{ color: "#fff" }}/>
             <Text  style={{ color: "#fff" }}>Settings</Text>
 </Button>
-<Button onPress={() => this.props.navigation.navigate("Account")} style={{ backgroundColor: "#fa8405", padding:8, }}>
-<Icon name='user'  style={{ color: "#fff" }}/>
-            <Text  style={{ color: "#fff" }}>Account</Text>
+<Button onPress={() => this.props.navigation.navigate("Logout")} style={{ backgroundColor: "#fa8405", padding:8, }}>
+<Icon name='arrow-right'  style={{ color: "#fff" }}/>
+            <Text  style={{ color: "#fff" }}>Logout</Text>
 </Button>
 </View>
 		</Footer>
