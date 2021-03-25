@@ -63,10 +63,15 @@ constructor(props){
 			}
 		var data = new FormData($("#nameform3")[0]);
 		var working = false;
+		
+						var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
 //				data.append('session_id',this.session_idx);
 
 		 await $.ajax({
-			url: 'http://localhost:8000/api/daftar3',
+			url: api_url + '/api/daftar3',
 			data: data,
 			cache: false,
 			contentType: false,
@@ -115,7 +120,7 @@ constructor(props){
 		console.log("test");
 		console.log(this.props);
 		var x = $("#statushiddenz").val();
-		alert(x);
+		//alert(x);
 		if(x=="not ok" || x==false || x==undefined)
 		{
 			//alert("xxx");

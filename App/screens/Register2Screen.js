@@ -34,8 +34,13 @@ $(document).ready(
 
 	function submit()
 	{
+				var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
+
 	$.ajax({
-		url: 'http://localhost:8000/api/province',
+		url: api_url + '/api/province',
 		data: "test=test",
 		cache: false,
 		contentType: false,
@@ -61,8 +66,12 @@ $(document).ready(
 	{
 		var fd = new FormData();
 		fd.append("province_id",id);
+		var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
 	$.ajax({
-		url: 'http://localhost:8000/api/kabupaten',
+		url: api_url + '/api/kabupaten',
 		data: fd,
 		cache: false,
 		contentType: false,
@@ -93,8 +102,12 @@ $(document).ready(
 	{
 		var fd = new FormData();
 		fd.append("regency_id",id);
+				var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});		
 	$.ajax({
-		url: 'http://localhost:8000/api/kecamatan',
+		url: api_url + '/api/kecamatan',
 		data: fd,
 		cache: false,
 		contentType: false,
@@ -125,8 +138,12 @@ $(document).ready(
 	{
 		var fd = new FormData();
 		fd.append("district_id",id);
+		var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
 	$.ajax({
-		url: 'http://localhost:8000/api/kelurahan',
+		url: api_url + '/api/kelurahan',
 		data: fd,
 		cache: false,
 		contentType: false,
@@ -197,6 +214,10 @@ constructor(props){
 		var data = new FormData();
 		var data = new FormData($("#nameform2")[0]);
 		var session = "";
+						var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
 		AsyncStorage.getItem('session_id',(err,result) => {
 			this.session_idx = result;
 			console.log(this.session_idx);
@@ -206,7 +227,7 @@ constructor(props){
 //		alert(token);
 		data.append('session_id',this.session_idx);
 		$.ajax({
-			url: 'http://localhost:8000/api/daftar2',
+			url: api_url + '/api/daftar2',
 			data: data,
 			cache: false,
 			contentType: false,

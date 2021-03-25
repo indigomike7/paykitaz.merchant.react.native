@@ -32,6 +32,10 @@ const screenWidth = dimensions.width;
 
 	function gettipebisnis()
 	{
+						var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
 		var data = new FormData();
 		AsyncStorage.getItem('login_id',(err,result) => {
 			data.append('login_id',result);
@@ -50,7 +54,7 @@ const screenWidth = dimensions.width;
 			console.log(result);
 		});
 	$.ajax({
-		url: 'http://localhost:8000/api/gettoko',
+		url: api_url + '/api/gettoko',
 		data: data,
 		cache: false,
 		contentType: false,
@@ -61,7 +65,8 @@ const screenWidth = dimensions.width;
 			//alert(data.datax[0].bt_name);
 			if(data.status == true)
 			{
-				$("#business_type").val(data.data.mit_business_type);
+				//$("#business_type_fpt").val(data.data.mit_business_type);
+				$("input[name=business_type_fpt][value='" + data.data.mit_business_type + "']").prop("checked",true);
 			}
 		}
 	});
@@ -82,8 +87,8 @@ componentDidMount() {
 	gettipebisnis();
   }
   async _secondFunction(props){
-	  alert($('input[name="business_type"]:checked').val());
-		AsyncStorage.setItem('tipe_bisnis',$('input[name="business_type"]:checked').val());
+	  //alert($('input[name="business_type_fpt"]:checked').val());
+		AsyncStorage.setItem('tipe_bisnis',$('input[name="business_type_fpt"]:checked').val());
 		this.props.navigation.navigate("DashboardData");
 		console.log(this.props);
 		}
@@ -122,7 +127,7 @@ componentDidMount() {
 	<View style={{flexDirection: "row",
             alignContent: "space-between", border:1, borderColor:"#e3dddc", borderRadius:10, padding:5,}}>
             <Field
-              name="business_type" id="business_type_fpt"
+              name="business_type_fpt" id="business_type_fpt"
               component="input"
               type="radio" value="1"
               required
@@ -131,7 +136,7 @@ componentDidMount() {
 	<View style={{flexDirection: "row",
             alignContent: "space-between", border:1, borderColor:"#e3dddc", borderRadius:10, padding:5,}}>
             <Field
-              name="business_type" id="business_type_fpt"
+              name="business_type_fpt" id="business_type_fpt"
               component="input"
               type="radio" value="2"
               required
@@ -140,7 +145,7 @@ componentDidMount() {
 	<View style={{flexDirection: "row",
             alignContent: "space-between", border:1, borderColor:"#e3dddc", borderRadius:10, padding:5,}}>
             <Field
-              name="business_type" id="business_type_fpt"
+              name="business_type_fpt" id="business_type_fpt"
               component="input"
               type="radio" value="3"
               required
@@ -149,7 +154,7 @@ componentDidMount() {
 	<View style={{flexDirection: "row",
             alignContent: "space-between", border:1, borderColor:"#e3dddc", borderRadius:10, padding:5,}}>
             <Field
-              name="business_type" id="business_type_fpt"
+              name="business_type_fpt" id="business_type_fpt"
               component="input"
               type="radio" value="4"
               required
@@ -158,7 +163,7 @@ componentDidMount() {
 	<View style={{flexDirection: "row",
             alignContent: "space-between", border:1, borderColor:"#e3dddc", borderRadius:10, padding:5,}}>
             <Field
-              name="business_type" id="business_type_fpt"
+              name="business_type_fpt" id="business_type_fpt"
               component="input"
               type="radio" value="5"
               required

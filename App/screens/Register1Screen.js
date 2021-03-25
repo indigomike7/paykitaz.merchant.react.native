@@ -26,8 +26,13 @@ import * as RootNavigation from './../../RootNavigation.js';
 
 	function submit()
 	{
+		var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
+
 	$.ajax({
-		url: 'http://localhost:8000/api/businesstype',
+		url: api_url + '/api/businesstype',
 		data: "test=test",
 		cache: false,
 		contentType: false,
@@ -112,12 +117,16 @@ constructor(props){
 		var data = new FormData();
 		var data = new FormData($("#nameform")[0]);
 		var statuz = false;
+		var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
 		//data.append('store_name', $("input[name='store_name']").val());
 		//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
 		//    data.append('file-'+i, file);
 		//});
 		$.ajax({
-			url: 'http://localhost:8000/api/daftar',
+			url: api_url + '/api/daftar',
 			data: data,
 			cache: false,
 			contentType: false,
@@ -257,12 +266,15 @@ return (
           </div>
           <div>
             <label>Upload Gambar</label><br/>
+			<label style={{border:1, borderColor: "green", backgroundColor:"green", padding:5, borderRadius:15, color:"white",}}>
             <Field
               name="filez"
               component="input"
               type="file"
-              required
+              required style={{display:"none",}}
             />
+			+  Upload Image
+			</label>
           </div>
           <div className="buttons">
             <button type="submit" disabled={submitting} >

@@ -24,68 +24,9 @@ import { NavigationActions } from 'react-navigation';
 import Register2Screen from './Register2Screen'
 import * as RootNavigation from './../../RootNavigation.js';
 
-	function submit()
-	{
-	$.ajax({
-		url: 'http://localhost/paykitaz-merchant-api/api/paket/businesstype',
-		data: "test=test",
-		cache: false,
-		contentType: false,
-		processData: false,
-		method: 'POST',
-		type: 'POST', // For jQuery < 1.9
-		success: function(data){
-			//alert(data.datax[0].bt_name);
-			var i;
-			for(i=0;i<data.datax.length;i++)
-			{
-				//alert(data.datax[i].bt_name);
-						$("#business_type").append(new Option(data.datax[i].bt_name, data.datax[i].bt_id));
 
-			}
-		}
-	});
-	return false;
-	}
 	
 	
-	function submitform()
-	{
-		var data = new FormData();
-		var data = new FormData($("#nameform")[0]);
-		var statuz = false;
-		//data.append('store_name', $("input[name='store_name']").val());
-		//jQuery.each(jQuery('#filez')[0].files, function(i, file) {
-		//    data.append('file-'+i, file);
-		//});
-		$.ajax({
-			url: 'http://localhost/paykitaz-merchant-api/api/daftar',
-			data: data,
-			cache: false,
-			contentType: false,
-			processData: false,
-			method: 'POST',
-			type: 'POST', // For jQuery < 1.9
-			success: function(data){
-				//session_id_reg = data.session_id_reg;
-				//alert(session_id_reg);
-				//Keychain.setGenericPassword('session', data.session_id_reg);
-				AsyncStorage.setItem('session_id', data.session_id_reg);
-				alert(data.session_id_reg);
-				//navigation.navigate('Register2');
-				/*const value = await AsyncStorage.getItem('@storage_Key')
-    if(value !== null) {
-      // value previously stored
-    }
-				*/
-
-				//NavigationActions.navigate("Register2");
-				//this.props.navigation.dispatch(navigateAction);
-				navigate('SliderScreen', { userName: 'Lucy' });
-//				alert("oyy");
-			}
-		});
-	}
 
 
 	export const navigationRef = React.createRef();
@@ -126,8 +67,12 @@ NavigateNotActive(props)
 		var data = new FormData();
 		var data = new FormData($("#nameformlogin")[0]);
 		var statusq = false;
+		var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
 		await  $.ajax({
-			url: 'http://localhost:8000/api/login',
+			url: api_url + '/api/login',
 			data: data,
 			cache: false,
 			contentType: false,

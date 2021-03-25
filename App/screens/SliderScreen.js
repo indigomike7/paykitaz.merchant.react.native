@@ -82,6 +82,8 @@ buttonbox: {
     alignItems: 'center',
   },
 });
+const api_url = "http://localhost:8000";
+AsyncStorage.setItem('api_url',api_url);
 
 export default class App extends React.Component {
 constructor(props){
@@ -101,9 +103,9 @@ navigateActive(props)
 	this.props.navigation.navigate('Main');
 	return true;
 }
-navigateLogin(props)
+navigateLoginRegister(props)
 {
-	this.props.navigation.navigate('Login');
+	this.props.navigation.navigate('LoginRegister');
 	return true;
 }
 navigateNotActive(props)
@@ -116,6 +118,11 @@ navigateNotActive(props)
 		var data = new FormData();
 		var session = "";
 		var statusactive = null;
+		var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
+
 		AsyncStorage.getItem('login_id',(err,result) => {
 			data.append('login_id',result);
 			console.log("emmm");
@@ -133,7 +140,7 @@ navigateNotActive(props)
 			console.log(result);
 		});
 		$.ajax({
-			url: 'http://localhost:8000/api/checkloginredirect',
+			url: api_url + '/api/checkloginredirect',
 			data: data,
 			cache: false,
 			contentType: false,
@@ -194,7 +201,7 @@ navigateNotActive(props)
 		});
 		if(y=="1")
 		{
-			this.navigateLogin();
+			this.navigateLoginRegister();
 			return false;
 		}
 		if(x=="1")

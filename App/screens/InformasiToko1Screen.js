@@ -31,11 +31,60 @@ $(document).ready(
 	}
 
 );
+	function gettoko()
+	{
+						var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
+		var data = new FormData();
+		AsyncStorage.getItem('login_id',(err,result) => {
+			data.append('login_id',result);
+			console.log("emmm");
+			console.log(result);
+		});
+//		alert(token);
+		AsyncStorage.getItem('user_name',(err,result) => {
+			data.append('user_name',result);
+			console.log("emmm");
+			console.log(result);
+		});
+		AsyncStorage.getItem('token',(err,result) => {
+			data.append('token',result);
+			console.log("emmm");
+			console.log(result);
+		});
+	$.ajax({
+		url: api_url + '/api/gettoko',
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		method: 'POST',
+		type: 'POST', // For jQuery < 1.9
+		success: function(data){
+			//alert(data.datax[0].bt_name);
+			if(data.status == true)
+			{
+				//$("#business_type_fpt").val(data.data.mit_business_type);
+				$("#mit_business_type_info").val(data.data.mit_business_type_info);
+				$("input[name=mit_store_name]").val(data.data.mit_store_name);
+				$("input[name=mit_omzet_annually][value='" + data.data.mit_omzet_annually + "']").prop("checked",true);
+				$("input[name=mit_omzet_monthly][value='" + data.data.mit_omzet_monthly + "']").prop("checked",true);
+			}
+		}
+	});
+	return false;
+	}
 
 	function submit()
 	{
+		var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
 	$.ajax({
-		url: 'http://localhost:8000/api/mbti',
+		url: api_url + '/api/mbti',
 		data: "test=test",
 		cache: false,
 		contentType: false,
@@ -63,8 +112,12 @@ $(document).ready(
 	{
 		var fd = new FormData();
 		fd.append("province_id",id);
-	$.ajax({
-		url: 'http://localhost:8000/api/kabupaten',
+				var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
+		$.ajax({
+		url: api_url + '/api/kabupaten',
 		data: fd,
 		cache: false,
 		contentType: false,
@@ -95,8 +148,12 @@ $(document).ready(
 	{
 		var fd = new FormData();
 		fd.append("regency_id",id);
+						var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
 	$.ajax({
-		url: 'http://localhost:8000/api/kecamatan',
+		url: api_url + '/api/kecamatan',
 		data: fd,
 		cache: false,
 		contentType: false,
@@ -127,8 +184,12 @@ $(document).ready(
 	{
 		var fd = new FormData();
 		fd.append("district_id",id);
+						var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
 	$.ajax({
-		url: 'http://localhost:8000/api/kelurahan',
+		url: api_url + '/api/kelurahan',
 		data: fd,
 		cache: false,
 		contentType: false,
@@ -200,6 +261,10 @@ constructor(props){
 		var data = new FormData();
 		var data = new FormData($("#infotoko1")[0]);
 		var session = "";
+						var api_url = "";
+		AsyncStorage.getItem('api_url',(err,result) => {
+			api_url = result;
+		});
 		AsyncStorage.getItem('login_id',(err,result) => {
 			data.append('login_id',result);
 			console.log("emmm");
@@ -222,7 +287,7 @@ constructor(props){
 			console.log(result);
 		});
 		$.ajax({
-			url: 'http://localhost:8000/api/informasitoko1',
+			url: api_url + '/api/informasitoko1',
 			data: data,
 			cache: false,
 			contentType: false,
@@ -287,6 +352,7 @@ constructor(props){
 
 componentDidMount() {
 submit();
+gettoko();
 $(document).ready(
 	function()
 	{
@@ -338,7 +404,6 @@ return (
             <Field
               name="mit_business_type_info" id="mit_business_type_info"
               component="select"
-	  onchange="{submit2(this.value)}"
               required
               >
               <option value="0">Select</option>
@@ -353,17 +418,17 @@ return (
 			/> &lt; 300 Juta<br/>
             <Field
               name="mit_omzet_annually" id="mit_omzet_annually"
-              component="input" type="radio" value="1"
+              component="input" type="radio" value="2"
               required
 			/> 300 Juta - 2,5 Milliar<br/>
             <Field
               name="mit_omzet_annually" id="mit_omzet_annually"
-              component="input" type="radio" value="1"
+              component="input" type="radio" value="3"
               required
 			/> 2,5 - 50 Milliar<br/>
             <Field
               name="mit_omzet_annually" id="mit_omzet_annually"
-              component="input" type="radio" value="1"
+              component="input" type="radio" value="4"
               required
 			/> &gt; 50 Milliar<br/>
           </div>
@@ -376,17 +441,17 @@ return (
 			/> &lt; 3 Juta<br/>
             <Field
               name="mit_omzet_monthly" id="mit_omzet_monthly"
-              component="input" type="radio" value="1"
+              component="input" type="radio" value="2"
               required
 			/> 3 Juta - 100 Juta<br/>
             <Field
               name="mit_omzet_monthly" id="mit_omzet_monthly"
-              component="input" type="radio" value="1"
+              component="input" type="radio" value="3"
               required
 			/> 100 Juta - 2,5 Milliar<br/>
             <Field
               name="mit_omzet_monthly" id="mit_omzet_monthly"
-              component="input" type="radio" value="1"
+              component="input" type="radio" value="4"
               required
 			/> &gt; 2,5 Milliar<br/>
           </div>
