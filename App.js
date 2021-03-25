@@ -41,7 +41,15 @@ import DataScreen from "./App/screens/DataScreen";
 import SettingsScreen from "./App/screens/SettingsScreen";
 import MainNotActiveScreen from "./App/screens/MainNotActiveScreen";
 import LogoutScreen from "./App/screens/LogoutScreen";
-
+import ToolsScreen from "./App/screens/ToolsScreen";
+import CoronaScreen from "./App/screens/CoronaScreen";
+import AktifkanPaykitazScreen from  "./App/screens/AktifkanPaykitazScreen"
+import PilihTypeBusinessScreen from  "./App/screens/PilihTypeBusinessScreen"
+import DashboardDataScreen from  "./App/screens/DashboardDataScreen"
+import InformasiToko1Screen from  "./App/screens/InformasiToko1Screen"
+import InformasiToko2Screen from  "./App/screens/InformasiToko2Screen"
+import InformasiToko3Screen from  "./App/screens/InformasiToko3Screen"
+import InformasiToko4Screen from  "./App/screens/InformasiToko4Screen"
 
 import
  MaterialCommunityIcons
@@ -87,6 +95,15 @@ const App = () => {
         <Stack.Screen name="Data" component={DataScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Settings" component={SettingsScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Logout" component={LogoutScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="Tools" component={ToolsScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="Corona" component={CoronaScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="AktifkanPaykitaz" component={AktifkanPaykitazScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="PilihTypeBusiness" component={PilihTypeBusinessScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="DashboardData" component={DashboardDataScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="InformasiToko1" component={InformasiToko1Screen}  options={{ headerShown: false }} />
+        <Stack.Screen name="InformasiToko2" component={InformasiToko2Screen}  options={{ headerShown: false }} />
+        <Stack.Screen name="InformasiToko3" component={InformasiToko3Screen}  options={{ headerShown: false }} />
+        <Stack.Screen name="InformasiToko4" component={InformasiToko4Screen}  options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
 
