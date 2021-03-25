@@ -134,9 +134,9 @@ constructor(props){
 				console.log(data);
 				if(data.status==true)
 				{
-				AsyncStorage.setItem('login_id', data.login_id);
-				AsyncStorage.setItem('user_name', data.user_name);
-				AsyncStorage.setItem('token', data.token);
+				AsyncStorage.setItem('login_id', data.data.login_id);
+				AsyncStorage.setItem('user_name', data.data.user_name);
+				AsyncStorage.setItem('token', data.data.token);
 				this.status_login = true;
 					$("#statushidden").val("ok");
 				}
@@ -153,9 +153,9 @@ constructor(props){
 				//alert(data.status);
 				if(data.status==true)
 				{
-				AsyncStorage.setItem('login_id', data.login_id);
-				AsyncStorage.setItem('user_name', data.user_name);
-				AsyncStorage.setItem('token', data.token);
+				AsyncStorage.setItem('login_id', data.data.login_id);
+				AsyncStorage.setItem('user_name', data.data.user_name);
+				AsyncStorage.setItem('token', data.data.token);
 				this.status_login = true;
 				statusq = true;
 					$("#statushidden").val("ok");

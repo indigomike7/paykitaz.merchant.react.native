@@ -3,6 +3,9 @@ import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import AppButton from "../components/appbutton";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import $ from 'jquery';
+
 
 const data = [
   {
@@ -81,6 +84,73 @@ buttonbox: {
 });
 
 export default class App extends React.Component {
+constructor(props){
+ super(props);
+ this. _checkLogin = this. _checkLogin.bind(this);
+ this. navigateActive = this. navigateActive.bind(this);
+ this. navigateNotActive = this. navigateNotActive.bind(this);
+ 	console.log(this.props);
+ console.log(props);
+}	
+componentDidMount() {
+	this._checkLogin();
+  }
+navigateActive(props)
+{
+	this.props.navigation.navigate('Main');
+	return true;
+}
+navigateNotActive(props)
+{
+	this.props.navigation.navigate('MainNotActive');
+	return true;
+}
+	_checkLogin(props)
+	{
+		var data = new FormData();
+		var session = "";
+		AsyncStorage.getItem('login_id',(err,result) => {
+			data.append('login_id',result);
+			console.log("emmm");
+			console.log(result);
+		});
+//		alert(token);
+		AsyncStorage.getItem('user_name',(err,result) => {
+			data.append('user_name',result);
+			console.log("emmm");
+			console.log(result);
+		});
+		AsyncStorage.getItem('token',(err,result) => {
+			data.append('token',result);
+			console.log("emmm");
+			console.log(result);
+		});
+		$.ajax({
+			url: 'http://localhost:8000/api/checkloginredirect',
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			method: 'POST',
+			type: 'POST', // For jQuery < 1.9
+			success: function(data){
+				if(data.status == true)
+				{
+					if(data.active ==true)
+					{
+						this.NavigateActive();
+					}
+					else
+					{
+						this.navigateNotActive();
+						
+					}
+				}
+			}
+		});
+
+		return false;
+	}
   _renderItem = ({item}: {item: Item}) => {
     return (
       <View
