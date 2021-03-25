@@ -39,6 +39,8 @@ import AccountScreen from "./App/screens/AccountScreen";
 import QRCodeScreen from "./App/screens/QRCodeScreen";
 import DataScreen from "./App/screens/DataScreen";
 import SettingsScreen from "./App/screens/SettingsScreen";
+import MainNotActiveScreen from "./App/screens/MainNotActiveScreen";
+import LogoutScreen from "./App/screens/LogoutScreen";
 
 
 import
@@ -79,10 +81,12 @@ const App = () => {
         <Stack.Screen name="RegisterInputLoginData" component={RegisterInputLoginDataScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Viewimage" component={ViewImageScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="MainNotActive" component={MainNotActiveScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Account" component={AccountScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="QRCode" component={QRCodeScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Data" component={DataScreen}  options={{ headerShown: false }} />
         <Stack.Screen name="Settings" component={SettingsScreen}  options={{ headerShown: false }} />
+        <Stack.Screen name="Logout" component={LogoutScreen}  options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
 

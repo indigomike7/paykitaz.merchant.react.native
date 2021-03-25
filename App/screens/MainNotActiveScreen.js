@@ -66,7 +66,7 @@ constructor(props){
 			<Text style={styles.small}><br/></Text>
 		  </View>
 		<View >
-	<Text>Terima Kasih Sudah Mendaftar sebagai Merchant Paykitaz
+	<Text style={{padding:10,}}>Terima Kasih Sudah Mendaftar sebagai Merchant Paykitaz<br/><br/>
 	Data anda sedang tahap pengaktifan, Butuh 2 x 24 Jam paling lama untuk proses aktifasi pengisian data
 	</Text>
 	</View>

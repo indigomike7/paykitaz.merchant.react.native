@@ -137,6 +137,7 @@ constructor(props){
 				AsyncStorage.setItem('login_id', data.data.login_id);
 				AsyncStorage.setItem('user_name', data.data.user_name);
 				AsyncStorage.setItem('token', data.data.token);
+				AsyncStorage.setItem('logout', '0');
 				this.status_login = true;
 					$("#statushidden").val("ok");
 				}
@@ -156,6 +157,7 @@ constructor(props){
 				AsyncStorage.setItem('login_id', data.data.login_id);
 				AsyncStorage.setItem('user_name', data.data.user_name);
 				AsyncStorage.setItem('token', data.data.token);
+				AsyncStorage.setItem('logout', '0');
 				this.status_login = true;
 				statusq = true;
 					$("#statushidden").val("ok");
